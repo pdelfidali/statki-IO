@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+
+{% block page_content %}
+    <h1>Witamy na stronie</h1>
+    {%  if current_user.is_authenticated %}
+        {{ current_user.username }}
+        <a href="/logout">Wyloguj się</a>
+    {% else %}
+        <a href="/login">Zaloguj się</a>
+        <a href="/register">Zarejestruj się</a>
+    {% endif %}
+{% endblock %}

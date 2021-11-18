@@ -30,4 +30,7 @@ def create_app():
     from app.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
+    from app.profile import profile as profile_blueprint
+    app.register_blueprint(profile_blueprint)
+
     return app

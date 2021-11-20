@@ -24,6 +24,7 @@ def create_app():
     db.init_app(app)
 
     @app.route('/')
+    @app.route('/index')
     def index():
         return render_template('index.html')
 
@@ -33,4 +34,7 @@ def create_app():
     from app.profile import profile as profile_blueprint
     app.register_blueprint(profile_blueprint)
 
+    @app.route('/manual')
+    def manual():
+        return render_template('manual.html')
     return app

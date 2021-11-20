@@ -1,10 +1,20 @@
 {% extends "bootstrap/base.html" %}
 {% block head %}
-    <title>{% block title %}Statki{% endblock %}</title>
+    <title>Battleship</title>
+        <meta charset="utf-8">
+
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Loved+by+the+King&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="/static/css/style.css">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 {% endblock %}
 
 {% block content %}
-   {% with messages = get_flashed_messages() %}
+     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <script>
           var messages = {{ messages | safe }};
@@ -14,5 +24,14 @@
         </script>
       {% endif %}
     {% endwith %}
-    {% block page_content %}{% endblock %}
+     <header class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <a href="/index">
+                        <h1 id="intro">Statki Online</h1>
+                    </a>
+                </div>
+            </div>
+        </header>
+        {% block page_content %}{% endblock %}
 {% endblock %}

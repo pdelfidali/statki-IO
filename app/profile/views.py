@@ -1,6 +1,6 @@
 from . import profile
 from app.models import *
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 from wtforms import PasswordField, SubmitField
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
@@ -34,16 +34,15 @@ def save_picture(form_picture):
 @profile.route('/profile/<username>', methods=['GET', 'POST'])
 def show_user(username):
     user = User.query.filter_by(username=username).first()
-    # passwordForm = ChangePasswordForm()
-    image_file = url_for('static', filename=f'avatars/{user.image_file}')
-    # if passwordForm.validate_on_submit():
-    #     user.newpassword(passwordForm.new_password.data)
-    #     db.session.commit()
-    form = ChangeAvatarForm()
-    if form.validate_on_submit():
-        if form.file.data:
-            user.image_file = save_picture(form.file.data)
-            db.session.commit()
-            return redirect(request.url)
-    return render_template('profile.html', user=user, form=form, image_file=image_file)
-
+    if user:
+        image_file = url_for('static', filename=f'avatars/{user.image_file}')
+        form = ChangeAvatarForm()
+        if form.validate_on_submit():
+            if form.file.data:
+                user.image_file = save_picture(form.file.data)
+                db.session.commit()
+                return redirect(request.url)
+        return render_template('profile.html', user=user, form=form, image_file=image_file)
+    else:
+        flash(f'Użytkownik o nicku {username} nie istnieje')
+        return redirect('/')

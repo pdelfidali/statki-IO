@@ -1,0 +1,73 @@
+body {
+    /* Background image downloaded from www.subtlepatterns.com */
+    background-image: url(../img/stardust.png);
+}
+
+#intro {
+    text-align: center;
+    font-family: 'Loved by the King', cursive;
+    letter-spacing: 5px;
+    font-size: 120px;
+    font-weight: bold;
+    margin: 12px 20px 17px 20px;
+    padding: 20px;
+    color: rgba(183, 0, 255, 0.918);
+}
+
+#intro:hover {
+    color: rgba(188, 0, 253, 0.818);
+    transition-delay: 100ms;
+}
+
+.col-12 a:hover {
+    text-decoration: none;
+}
+
+.field {
+    font-size: 25px;
+    margin: 15px;
+    padding: 15px;
+    font-family: 'Dancing Script', cursive;
+    letter-spacing: 2px;
+    text-align: center;
+    color: rgb(21, 255, 0);
+}
+
+.go {
+    margin: 15px;
+    padding: 15px;
+    font-size: 35px;
+    color: rgba(0, 0, 0, 0.671);
+}
+
+.description {
+    border-radius: 15px;
+}
+
+.subheader {
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    letter-spacing: 3px;
+    font-size: 40px;
+    margin: 5px 20px 10px 20px;
+    padding: 20px;
+    color: rgba(18, 2, 34, 0.89);;
+}
+
+.casual {
+    margin: 8px;
+    padding: 8px;
+    font-family: 'Rubik', sans-serif;
+    font-size: 17px;
+    color: rgb(100, 56, 141);
+    text-align: center;
+}
+
+#first_subheader {
+    margin-top:25px;
+}
+
+label {
+    font-family: 'Crimson Pro', serif;
+    font-size: 20px;
+}

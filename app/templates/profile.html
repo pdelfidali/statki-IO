@@ -8,7 +8,15 @@
             <form method="POST" action="" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
                 <fieldset class="form-group">
-                   <div class="form-group">
+                    <div class="form-group">
+                        {{ form.old_password.label() }}
+                        {{ form.old_password() }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.new_password.label() }}
+                        {{ form.new_password() }}
+                    </div>s
+                    <div class="form-group">
                         {{ form.file.label() }}
                         {{ form.file(class="form-control-file") }}
                         {% if form.file.errors %}
@@ -16,7 +24,7 @@
                                 <span class="text-danger">{{ error }}</span></br>
                             {% endfor %}
                         {% endif %}
-                   </div>
+                    </div>
                 </fieldset>
                  <div class="form-group">
                     {{ form.submit(class="btn btn-outline-info") }}

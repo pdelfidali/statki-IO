@@ -21,14 +21,17 @@ class RegisterForm(FlaskForm):
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, password_hash=generate_password_hash(form.password.data))
-        try:
-            db.session.add(user)
-            db.session.commit()
-            flash(f'Poprawnie zarejestrowano użytkownika {form.username.data}')
-            return redirect('/')
-        except sqlalchemy.exc.IntegrityError:
-            flash(f'Błędny adres email lub nick')
+        if form.password.data == form.password2.data:
+            user = User(username=form.username.data, password_hash=generate_password_hash(form.password.data))
+            try:
+                db.session.add(user)
+                db.session.commit()
+                flash(f'Poprawnie zarejestrowano użytkownika {form.username.data}')
+                return redirect('/close')
+            except sqlalchemy.exc.IntegrityError:
+                flash(f'Błędny adres email lub nick')
+        else:
+            flash("Hasła nie są takie same")
     return render_template('auth.html', form=form)
 
 
@@ -45,7 +48,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
-            return redirect('/')
+            return redirect('/close')
         flash('Niepoprawny nick lub hasło')
     return render_template('auth.html', form=form)
 
@@ -56,3 +59,7 @@ def logout():
     logout_user()
     flash('Wylogowałeś się!')
     return redirect('/')
+
+@auth.route('/close')
+def close():
+    return render_template('close.html')

@@ -34,6 +34,9 @@ def create_app():
     from app.profile import profile as profile_blueprint
     app.register_blueprint(profile_blueprint)
 
+    from app.statistics import statistics as statistics_blueprint
+    app.register_blueprint(statistics_blueprint)
+
     @app.route('/manual')
     def manual():
         return render_template('manual.html')

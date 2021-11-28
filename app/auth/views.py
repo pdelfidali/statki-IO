@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Email
 from flask import Blueprint, render_template, redirect, url_for, flash
-from app.models import User
+from app.models import User, Stat
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 from . import auth
@@ -23,8 +23,10 @@ def register():
     if form.validate_on_submit():
         if form.password.data == form.password2.data:
             user = User(username=form.username.data, password_hash=generate_password_hash(form.password.data))
+            user_statistics = Stat(username=form.username.data)
             try:
                 db.session.add(user)
+                db.session.add(user_statistics)
                 db.session.commit()
                 flash(f'Poprawnie zarejestrowano użytkownika {form.username.data}')
                 return redirect('/close')
@@ -48,7 +50,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
-            return redirect('/close')
+            return redirect('/')
         flash('Niepoprawny nick lub hasło')
     return render_template('auth.html', form=form)
 
@@ -59,7 +61,3 @@ def logout():
     logout_user()
     flash('Wylogowałeś się!')
     return redirect('/')
-
-@auth.route('/close')
-def close():
-    return render_template('close.html')

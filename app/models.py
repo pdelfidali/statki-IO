@@ -25,3 +25,21 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f'{self.id}: {self.username}'
+
+class Stat(db.Model):
+    __tablename__ = 'stat'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(25), unique=True, index=True)
+    games_total_count = db.Column(db.Integer, default=0)
+    games_won_count = db.Column(db.Integer, default=0)
+    shot_total_count = db.Column(db.Integer, default=0)
+    shot_hit_count = db.Column(db.Integer, default=0)
+
+    def change_statistics(self, games_won=0, shot_total=0, shot_hits=0):
+        self.games_total_count += 1
+        self.games_won_count += games_won
+        self.shot_total_count += shot_total
+        self.shot_hit_count += shot_hits
+
+    def __repr__(self):
+        return f'{self.id}: {self.username}'

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>user</th>
+        <th>games_total_count</th>
+        <th>games_won_count</th>
+        <th>shot_total_count</th>
+        <th>shot_hit_count</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td>{{ user.username }}</td>
+          <td>{{ user.games_total_count}}</td>
+          <td>{{ user.games_won_count}}</td>
+          <td>{{ user.shot_total_count}}</td>
+          <td>{{ user.shot_hit_count }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+<!--  <table id="moje" class="table table-striped">-->
+<!--    <thead>-->
+<!--      <tr>-->
+<!--        <th>user</th>-->
+<!--        <th>games_total_count</th>-->
+<!--        <th>shot_total_count</th>-->
+<!--        <th>shot_hit_count</th>-->
+<!--      </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--        <tr>-->
+<!--          <td>{{ moje.username }}</td>-->
+<!--          <td>{{ moje.games_total_count}}</td>-->
+<!--          <td>{{ moje.shot_total_count}}</td>-->
+<!--          <td>{{ moje.shot_hit_count }}</td>-->
+<!--        </tr>-->
+<!--    </tbody>-->
+<!--  </table>-->
+{% endblock %}

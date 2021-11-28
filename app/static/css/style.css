@@ -71,3 +71,27 @@ label {
     font-family: 'Crimson Pro', serif;
     font-size: 20px;
 }
+
+.panel_element {
+    font-family: 'Dancing Script', cursive;
+}
+
+.sticky {
+    position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+}
+
+.navbar-brand {
+    color:white;
+    margin-right: 120px;
+}
+
+.nav-item {
+    margin-top: 15px;
+}
+
+.nav-link {
+    margin-top: 50px;
+    margin-right: 100px;
+}

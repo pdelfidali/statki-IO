@@ -37,4 +37,8 @@ def create_app():
     @app.route('/manual')
     def manual():
         return render_template('manual.html')
+
+    @app.route('/game')
+    def game():
+        return render_template('game.html')
     return app

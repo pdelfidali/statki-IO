@@ -36,21 +36,22 @@ def register():
             flash("Hasła nie są takie same")
     return render_template('auth.html', form=form)
 
+class LoginForm(FlaskForm):
+    username = StringField('Wprowadź swój nick:', validators=[DataRequired(message='Pole nie może być puste')])
+    password = PasswordField('Wprowadź hasło:', validators=[DataRequired(message='Pole nie może być puste')])
+    remember_me = BooleanField('Nie wylogowywuj mnie')
+    submit = SubmitField('Zaloguj się')
+
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    class LoginForm(FlaskForm):
-        username = StringField('Wprowadź swój nick:', validators=[DataRequired(message='Pole nie może być puste')])
-        password = PasswordField('Wprowadź hasło:', validators=[DataRequired(message='Pole nie może być puste')])
-        remember_me = BooleanField('Nie wylogowywuj mnie')
-        submit = SubmitField('Zaloguj się')
-
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
-            return redirect('/')
+            flash(f'Poprawnie zalogowano użytkownika {form.username.data}')
+            return redirect('/close')
         flash('Niepoprawny nick lub hasło')
     return render_template('auth.html', form=form)
 

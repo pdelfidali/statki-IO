@@ -41,7 +41,11 @@ def create_app():
     def manual():
         return render_template('manual.html')
 
-    @app.route('/game')
-    def game():
-        return render_template('game.html')
+    from app.game import game as game_blueprint
+    app.register_blueprint(game_blueprint)
+
+    @app.route('/close')
+    def close():
+        return render_template('close.html')
+
     return app

@@ -18,6 +18,7 @@ def upload_resuls_after_game(username, shot_total, shot_hit):
     user = Stat.query.filter_by(username=username).first()
     if user:
         user.change_statistics(shot_total, shot_hit)
+        db.session.commit()
 
 @statistics.route('/statistics', methods=['GET'])
 def print_top5():

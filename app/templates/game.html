@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+// TODO trzeba zrobić logowanie 2 gracza!
 {% block head %}
     <title>Battleship</title>
     <meta charset="utf-8">
@@ -50,7 +50,7 @@
                     <div class="row">
                         <article class="col-md-3">
                             <div class="panel_element">
-                                current player: <span id='player'></span>
+                                Aktualnie trwa tura gracza: <span id='player'></span>
                             </div>
                         </article>
 
@@ -89,6 +89,10 @@
         // liczba celnych strzałów oddanych prze danego gracza
         var player_one_points = 0;
         var player_two_points = 0;
+
+        // liczba strzałów oddnaych przez danego gracza
+        var player_one_shots = 0;
+        var player_two_shots = 0;
         
         // uchwyty dla pól jako elementów DOM
         var b1_square = [];
@@ -103,6 +107,10 @@
         // początkowe rozstawienie statków dla obu graczy
         set_ships(1);
         set_ships(2);
+
+        // nicki graczy
+        var player_one_nick = '{{ current_user.username }}';
+        var player_two_nick = 'Siema';
 
         var ship_relocation = document.getElementById('ship_relocation');
         ship_relocation.addEventListener("click", () => { set_ships(player); });
@@ -162,6 +170,7 @@
                 } else { // przypadek, w którym gracz nr 1 spudłował
                     flip_failure(nr);
                 }
+                player_one_shots++;
                 disable_board('2');
             } else if (player == 2) { // przypadek, w którym gracz nr 2 trafił
                 if (b1_ships.includes(nr)) {
@@ -171,6 +180,7 @@
                     flip_failure(nr);
                 }
                 disable_board('1');
+                player_two_shots++;
             }
         }
 
@@ -181,7 +191,7 @@
             $('#' + id_prefix + nr).removeClass('square');
             $('#' + id_prefix + nr).addClass('square_success');
 
-            if (player_one_points == 2 || player_two_points == 2) {
+            if (player_one_points == 1 || player_two_points == 1) {
                 end_game();
             }
         }
@@ -199,7 +209,12 @@
             var board_to_enable = player;
             
             player = (player == 1 ? 2 : 1);
-            $('#player').html(player);
+            if (player == 1){
+                $('#player').html(player_one_nick);
+            }
+            else {
+                $('#player').html(player_two_nick);
+            }
 
             enable_board(String(board_to_enable));
         }
@@ -235,6 +250,28 @@
                 disable_board('1');
                 disable_board('2');
             }
+
+            // przesłanie danych z rozgrywki do serwera
+            var game_summary = {
+                'player' : player_one_nick,
+                'shots' : player_one_shots,
+                'points' : player_one_points,
+                'second_player' : player_two_nick,
+                'second_shots' : player_two_shots,
+                'second_points' : player_two_points
+            }
+
+            console.log(JSON.stringify(game_summary))
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(game_summary),
+                dataType: "json",
+                url: "/game_summary",
+                error: function (error) {
+                    console.log(error)
+                }
+            })
         }
 
         // ustawianie odpowiedniego przedrostka dla uchwytów w jQuery

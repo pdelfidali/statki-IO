@@ -1,4 +1,9 @@
-<script>
-    //Dopisać timeout
-    window.close()
-</script>
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block page_content %}
+    <script>
+        window.setTimeout(window.close, 2000)
+    </script>
+{% endblock %}

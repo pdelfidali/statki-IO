@@ -10,6 +10,9 @@ from PIL import Image
 from flask_login import current_user
 
 class ChangeForm(FlaskForm):
+    '''
+    Formularz do zmiany hasła i awatara gracza
+    '''
     old_password = PasswordField('Aktualne hasło')
     new_password = PasswordField('Nowe hasło')
     file = FileField('Zmień swój Awatar', validators=[FileAllowed(['jpg', 'png'], message='Plik musi mieć rozszerzenie .jpg lub .png')])
@@ -17,6 +20,11 @@ class ChangeForm(FlaskForm):
 
 
 def save_picture(form_picture):
+    '''
+    Funkcja skalująca i zapisująca awatar gracza
+    :param form_picture:  plik obrazy
+    :return picture_fn: nazwa pliku który został przeskalowany i zapisany
+    '''
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
@@ -30,6 +38,11 @@ def save_picture(form_picture):
 
 @profile.route('/profile/<username>', methods=['GET', 'POST'])
 def show_user(username):
+    '''
+    Endpoint renderujący profil użytkownika przekazanego w adresie URL
+    :param username:
+    :return:
+    '''
     user = User.query.filter_by(username=username).first()
     if user:
         image_file = url_for('static', filename=f'avatars/{user.image_file}')

@@ -2,8 +2,12 @@ from flask import request, jsonify, redirect, render_template, json
 from . import game
 from ..statistics.views import upload_resuls_after_game
 
+
 @game.route('/game_summary', methods=['GET','POST'])
 def summary():
+    '''
+    Endpoint który przyjmuje dane po rozgrywce i przekazuje je do bazy danych
+    '''
     if request.method == "POST" and request.get_json():
         data = request.get_json()
         upload_resuls_after_game(data['player'], data['shots'], data['points'])

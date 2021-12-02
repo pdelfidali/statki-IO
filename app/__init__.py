@@ -13,6 +13,11 @@ login_manager = LoginManager()
 migrate = Migrate()
 
 def create_app():
+    '''
+    Funkcja zwraca zainicjalizowaną aplikację
+    :return:
+    app
+    '''
     app = Flask(__name__)
     bootstrap.init_app(app)
     login_manager.init_app(app)

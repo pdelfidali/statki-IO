@@ -24,6 +24,7 @@
 	display: inline-block;
 	margin: 4px;
     background-image: url(../img/square_success.png);
+    pointer-events: none !important; 
 }
 
 .square_fail {
@@ -32,6 +33,15 @@
 	display: inline-block;
 	margin: 4px;
     background-image: url(../img/square_fail.png);
+    pointer-events: none !important;
+}
+
+.square_ship {
+    width: 15px;
+	height: 15px;
+	display: inline-block;
+	margin: 4px;
+    background-image: url(../img/ship.jpg);
 }
 
 #gamepanel {
@@ -47,7 +57,6 @@
 
 .panel_element {
     margin-top: 10px;
-    margin-right: 10px;
     margin-bottom: 10px;
     font-size: 20px;
     margin-left: auto;

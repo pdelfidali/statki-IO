@@ -48,25 +48,25 @@
             <div class="col-md-8">
                 <section id="gamepanel">
                     <div class="row">
-                        <article class="col-md-3">
+                        <article class="col-md-4">
                             <div class="panel_element">
                                 Aktualnie trwa tura gracza: <span id='player'></span>
                             </div>
                         </article>
 
-                         <article class="col-md-3">
+                         <article class="col-md-2">
                             <div class="panel_element">
                                 <button type="button" id="player_swap" onclick="switch_player()">Zmień gracza</button>
                             </div>
                         </article>
 
-                        <article class="col-md-3 ">
+                        <article class="col-md-2">
                             <div  class="panel_element">
                                 <button type="button" id="game_trigger" onclick="start_game()">Rozpocznij Grę</button>
                             </div>
                         </article>
                         
-                        <article class="col-md-3">
+                        <article class="col-md-2">
                             <div class="panel_element">
                                 <button type="button" id="ship_relocation">Rozstaw statki</button>
                             </div>
@@ -83,7 +83,7 @@
 
         var game_started = false;
         var player_moved = false;
-        
+
         var player = 1;
 
         // liczba celnych strzałów oddanych prze danego gracza
@@ -107,9 +107,10 @@
         // początkowe rozstawienie statków dla obu graczy
         set_ships(1);
         set_ships(2);
-
+        
         // nicki graczy
         var player_one_nick = '{{ current_user.username }}';
+        player_one_nick = (player_one_nick.length == 0 ? '1' : player_one_nick);
         var player_two_nick = 'Siema';
 
         var ship_relocation = document.getElementById('ship_relocation');
@@ -142,6 +143,8 @@
             
             if (player == 2) {
                 player = 1;
+                hide_ships(2);
+                show_ships(1);
                 $('#player').html(player);
             }
 
@@ -150,13 +153,187 @@
 
         // rozmieszcza statki na wybranej planszy
         function set_ships(board_nr) {
+            let possible_moves = [];
+            for (let i = 0; i < 100; i++) {
+                possible_moves.push(i);
+            }
+
+            hide_ships(board_nr);
+
+            let aleatory_factors = [];
+
+            aleatory_factors[0] = get_random_int(1,6);
+
+            do {
+                aleatory_factors[1] = get_random_int(1,6);
+            } while (aleatory_factors[0] == aleatory_factors[1]);
+
             if (board_nr == 1) {
-                for (let i = 0; i < 35; i++) {
-                    b1_ships[i] = get_random_int(0, 99);
+                b1_ships = [];
+                
+                if (aleatory_factors.indexOf(1) != -1) [b1_ships, possible_moves] = create_ship(4, b1_ships, possible_moves, true);
+                if (aleatory_factors.indexOf(2) != -1) [b1_ships, possible_moves] = create_ship(3, b1_ships, possible_moves, true);
+                if (aleatory_factors.indexOf(3) != -1) [b1_ships, possible_moves] = create_ship(3, b1_ships, possible_moves, true);
+                if (aleatory_factors.indexOf(4) != -1) [b1_ships, possible_moves] = create_ship(2, b1_ships, possible_moves, true);
+                if (aleatory_factors.indexOf(5) != -1) [b1_ships, possible_moves] = create_ship(2, b1_ships, possible_moves, true);
+                
+
+                if (aleatory_factors.indexOf(1) == -1) [b1_ships, possible_moves] = create_ship(4, b1_ships, possible_moves);
+                if (aleatory_factors.indexOf(2) == -1) [b1_ships, possible_moves] = create_ship(3, b1_ships, possible_moves);
+                if (aleatory_factors.indexOf(3) == -1) [b1_ships, possible_moves] = create_ship(3, b1_ships, possible_moves);
+                if (aleatory_factors.indexOf(4) == -1) [b1_ships, possible_moves] = create_ship(2, b1_ships, possible_moves);
+                if (aleatory_factors.indexOf(5) == -1) [b1_ships, possible_moves] = create_ship(2, b1_ships, possible_moves);
+
+                [b1_ships, possible_moves] = create_ship(2, b1_ships, possible_moves); 
+                [b1_ships, possible_moves] = create_ship(1, b1_ships, possible_moves);
+                [b1_ships, possible_moves] = create_ship(1, b1_ships, possible_moves);
+                [b1_ships, possible_moves] = create_ship(1, b1_ships, possible_moves);
+                [b1_ships, possible_moves] = create_ship(1, b1_ships, possible_moves); 
+            } else if (board_nr == 2) {
+                b2_ships = [];
+                
+                if (aleatory_factors.indexOf(1) != -1) [b2_ships, possible_moves] = create_ship(4, b2_ships, possible_moves, true);
+                if (aleatory_factors.indexOf(2) != -1) [b2_ships, possible_moves] = create_ship(3, b2_ships, possible_moves, true);
+                if (aleatory_factors.indexOf(3) != -1) [b2_ships, possible_moves] = create_ship(3, b2_ships, possible_moves, true);
+                if (aleatory_factors.indexOf(4) != -1) [b2_ships, possible_moves] = create_ship(2, b2_ships, possible_moves, true);
+                if (aleatory_factors.indexOf(5) != -1) [b2_ships, possible_moves] = create_ship(2, b2_ships, possible_moves, true);
+                
+
+                if (aleatory_factors.indexOf(1) == -1) [b2_ships, possible_moves] = create_ship(4, b2_ships, possible_moves);
+                if (aleatory_factors.indexOf(2) == -1) [b2_ships, possible_moves] = create_ship(3, b2_ships, possible_moves);
+                if (aleatory_factors.indexOf(3) == -1) [b2_ships, possible_moves] = create_ship(3, b2_ships, possible_moves);
+                if (aleatory_factors.indexOf(4) == -1) [b2_ships, possible_moves] = create_ship(2, b2_ships, possible_moves);
+                if (aleatory_factors.indexOf(5) == -1) [b2_ships, possible_moves] = create_ship(2, b2_ships, possible_moves);
+
+                [b2_ships, possible_moves] = create_ship(2, b2_ships, possible_moves); 
+                [b2_ships, possible_moves] = create_ship(1, b2_ships, possible_moves);
+                [b2_ships, possible_moves] = create_ship(1, b2_ships, possible_moves);
+                [b2_ships, possible_moves] = create_ship(1, b2_ships, possible_moves);
+                [b2_ships, possible_moves] = create_ship(1, b2_ships, possible_moves); 
+            }
+
+            if (player == 1) {
+                show_ships(1);
+            } else if (player == 2) {
+                show_ships(2);
+            }
+        }
+
+        function create_ship(size, ships, possible_moves, horizontal = false) {
+            let ship_created = false;
+
+            let max_item;
+            switch(size) {
+                case 2:
+                    max_item = 88;
+                    break;
+                case 3:
+                    max_item = 78;
+                    break;
+                case 4:
+                    max_item = 68;
+            }
+
+            // utwórz statek pionowo
+            while(!ship_created && horizontal) {
+                let item = possible_moves[get_random_int(0, possible_moves.length - size - 1)];
+                ship_created = true;
+
+                if (item > max_item) {
+                    ship_created = false;
+                }
+
+                if (ship_created) {
+                    for (let i=0; i < size; i++) {
+                        if ( possible_moves[possible_moves.indexOf(item) + i*10] != possible_moves[possible_moves.indexOf(item)] + i*10 ) {
+                            ship_created = false;
+                            break;
+                        } else {
+                            continue;
+                        }
+                    }
+                }
+
+                if (ship_created) {
+                    for (let i=0; i < size; i++) {
+                        ships.push(item + i*10);
+                        possible_moves = remove_items_for_hit_field(possible_moves, item + i*10);
+                    }
+                }
+            }
+        
+            // utwórz statek poziomo
+            while (!ship_created && !horizontal) {
+                let item = possible_moves[get_random_int(0, possible_moves.length - size - 1)];
+                ship_created = true;
+
+                for (let i=0; i < size; i++) {
+                    if ( possible_moves[possible_moves.indexOf(item + i)] != possible_moves[possible_moves.indexOf(item)] + i ) {
+                        ship_created = false;
+                        break;
+                    } else if (size > 1 && possible_moves[possible_moves.indexOf(item + i + 1)] % 10 == 0) {
+                        ship_created = false;
+                        break;
+                    } else {
+                        continue;
+                    }
+                }
+
+                if (ship_created) {
+                    for (let i=0; i < size; i++) {
+                        ships.push(item + i);
+                        possible_moves = remove_items_for_hit_field(possible_moves, item + i);
+                    }
+                }
+            }
+            
+
+            return [ships, possible_moves];
+        }
+
+        function remove_items_for_hit_field(possible_moves, item) {
+            possible_moves = remove_single_item(possible_moves, item + 1);
+            possible_moves = remove_single_item(possible_moves, item - 1);
+            possible_moves = remove_single_item(possible_moves, item + 9);
+            possible_moves = remove_single_item(possible_moves, item - 9);
+            possible_moves = remove_single_item(possible_moves, item + 10);
+            possible_moves = remove_single_item(possible_moves, item - 10);
+            possible_moves = remove_single_item(possible_moves, item + 11);
+            possible_moves = remove_single_item(possible_moves, item - 11);
+
+            return possible_moves;
+        }
+
+        // pokaż wszystkie niezatopione statki na planszy
+        function show_ships(board_nr) {
+            const prefix = (board_nr == 1 ? 'b1_square' : 'b2_square');
+
+            if (board_nr == 1) {
+                for (const field of b1_ships) {
+                    $('#' + prefix + field).removeClass('square');
+                    $('#' + prefix + field).addClass('square_ship');
                 }
             } else if (board_nr == 2) {
-                for (let i = 0; i < 35; i++) {
-                    b2_ships[i] = get_random_int(0, 99);
+                for (const field of b2_ships) {
+                    $('#' + prefix + field).removeClass('square');
+                    $('#' + prefix + field).addClass('square_ship');
+                }
+            }
+        } 
+
+        // ukryj wszystkie statki na danej planszy
+        function hide_ships(board_nr) {
+            const prefix = (board_nr == 1 ? 'b1_square' : 'b2_square');
+
+            if (board_nr == 1) {
+                for (const field of b1_ships) {
+                    $('#' + prefix + field).removeClass('square_ship');
+                    $('#' + prefix + field).addClass('square');
+                }
+            } else if (board_nr == 2) {
+                for (const field of b2_ships) {
+                    $('#' + prefix + field).removeClass('square_ship');
+                    $('#' + prefix + field).addClass('square');
                 }
             }
         }
@@ -169,17 +346,19 @@
                     flip_success(nr);
                 } else { // przypadek, w którym gracz nr 1 spudłował
                     flip_failure(nr);
+                    disable_board('2');
                 }
+
                 player_one_shots++;
-                disable_board('2');
             } else if (player == 2) { // przypadek, w którym gracz nr 2 trafił
                 if (b1_ships.includes(nr)) {
                     player_two_points++;
                     flip_success(nr);
                 } else { // przypadek, w którym gracz nr 2 spudłował
                     flip_failure(nr);
+                    disable_board('1');
                 }
-                disable_board('1');
+
                 player_two_shots++;
             }
         }
@@ -189,9 +368,17 @@
             var id_prefix = set_prefix();
 
             $('#' + id_prefix + nr).removeClass('square');
+            $('#' + id_prefix + nr).removeClass('square_ship');
             $('#' + id_prefix + nr).addClass('square_success');
+            $('#' + id_prefix + nr).attr("disabled", "disabled");
 
-            if (player_one_points == 1 || player_two_points == 1) {
+            if (player == 1) {
+                b2_ships == remove_single_item(b2_ships, nr);
+            } else if (player == 2) {
+                b1_ships == remove_single_item(b1_ships, nr);
+            }
+
+            if (player_one_points == 20 || player_two_points == 20) {
                 end_game();
             }
         }
@@ -201,12 +388,16 @@
             var id_prefix = set_prefix();
 
             $('#' + id_prefix + nr).removeClass('square');
+            $('#' + id_prefix + nr).removeClass('square_ship');
             $('#' + id_prefix + nr).addClass('square_fail');
+            $('#' + id_prefix + nr).attr("disabled", "disabled");
         }
 
         // zamień aktualnego gracza
         function switch_player() {
             var board_to_enable = player;
+            var board_to_hide_ships = board_to_enable;
+            var board_to_show_ships = (board_to_hide_ships == 1 ? 2 : 1);
             
             player = (player == 1 ? 2 : 1);
             if (player == 1){
@@ -217,6 +408,11 @@
             }
 
             enable_board(String(board_to_enable));
+            hide_ships(board_to_hide_ships);
+            setTimeout( () => {
+                alert('Potwierdź zmianę gracza');
+                show_ships(board_to_show_ships);
+            }, 200 );
         }
 
         // blokuje możliwość oddania strzału na danej planszy
@@ -239,9 +435,9 @@
             $('#player_swap').css('opacity', '0.75');
             $('#player_swap').css('pointer-events', 'none');
             
-            if (player_one_points == 2) {
+            if (player_one_points == 20) {
                 alert("Zwycięża gracz 1");
-            } else if (player_two_points == 2) {
+            } else if (player_two_points == 20) {
                 alert("Zwycięża gracz 2");
             }
 
@@ -283,6 +479,15 @@
             min = Math.ceil(min);
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function remove_single_item(arr, value) {
+            var index = arr.indexOf(value);
+            if (index != -1) {
+                arr.splice(index, 1);
+            }
+
+            return arr;
         }
 
     </script>

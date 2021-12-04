@@ -37,7 +37,7 @@ def register():
                 flash(f'Poprawnie zarejestrowano użytkownika {form.username.data}')
                 return redirect('/close')
             except sqlalchemy.exc.IntegrityError:
-                flash(f'Błędny adres email lub nick')
+                flash(f'Nick jest juz uzywany przez kogos innego')
         else:
             flash("Hasła nie są takie same")
     return render_template('auth.html', form=form)

@@ -1,8 +1,11 @@
 import sqlalchemy
+from sqlalchemy import select, cast, Float
 from . import statistics
 from app.models import *
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user
+
+ROWS_PER_PAGE = 4
 
 # temp
 def nowi_goscie(username, gt=0, gw=0, st=0, sh=0):
@@ -14,26 +17,26 @@ def nowi_goscie(username, gt=0, gw=0, st=0, sh=0):
     except sqlalchemy.exc.IntegrityError:
         flash(f'goscie nie dzialaja')
 
-def upload_resuls_after_game(username, shot_total, shot_hit):
+def upload_resuls_after_game(username, games_won, shot_total, shot_hit):
     user = Stat.query.filter_by(username=username).first()
     if user:
-        user.change_statistics(shot_total, shot_hit)
-        db.session.commit()
+        try:
+            user.change_statistics(games_won, shot_total, shot_hit)
+            db.session.commit()
+        except:
+            flash(f'nie udalo sie zapisac danych do bazy danych')
 
-@statistics.route('/statistics', methods=['GET'])
-def print_top5():
-    # nowi_goscie('dd', 9808, 1111, 7358)
-    # nowi_goscie('vdsdsd', 94538, 784, 98)
-    # nowi_goscie('gsdds', 4444, 444, 44, 828)
-    # nowi_goscie('aaaabgdbv', 9099)
-    # upload_resuls_after_game('dupa', 10, 10)
 
-    # czesc pierwsza pokazuje najlepszych pieciu graczy
-    users_best = Stat.query
-    my_stats = ''
+@statistics.route('/statistics/<int:ann_id>', methods=['GET'])
+def print_top5(ann_id):
+    page = request.args.get('page', ann_id, type=int)
+    user_best = Stat.query.with_entities(Stat.username, (cast(Stat.games_won_count, sqlalchemy.Float(precision=3))/Stat.games_total_count).label('games'), (cast(Stat.shot_hit_count, sqlalchemy.FLOAT(10,2))/Stat.shot_total_count).label('shots')).\
+        paginate(page=page, per_page=ROWS_PER_PAGE)
+    users_best = Stat.query.paginate(page=page, per_page=ROWS_PER_PAGE)
 
-    # pokazuje wyniki obecnego uzytkownika
-    if current_user.is_authenticated:
-        my_stats = Stat.query.filter_by(username=current_user.username).first()
+    # # pokazuje wyniki obecnego uzytkownika
+    # my_stats = ''
+    # if current_user.is_authenticated:
+    #     my_stats = Stat.query.filter_by(username=current_user.username).first()
     return render_template('bootstrap_table.html', title='Bootstrap Table',
-                           users=users_best, moje=my_stats)
+                           users=user_best)

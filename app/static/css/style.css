@@ -2,6 +2,9 @@ body {
     /* Background image downloaded from www.subtlepatterns.com */
     background-image: url(../img/stardust.png);
 }
+#data-table {
+    color: white;
+}
 
 #intro {
     text-align: center;

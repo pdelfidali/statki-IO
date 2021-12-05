@@ -46,3 +46,17 @@ class Stat(db.Model):
 
     def __repr__(self):
         return f'{self.id}: {self.username}'
+
+class Game(db.Model):
+    __tablename__ = 'games'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    player1 = db.Column(db.String(25))
+    player2 = db.Column(db.String(25))
+    player1_ships = db.Column(db.String(300))
+    player2_ships = db.Column(db.String(300))
+    player1_shots = db.Column(db.String(300))
+    player2_shots = db.Column(db.String(300))
+
+    def __repr__(self):
+        return f'{self.id}: {self.player1} vs {self.player2}'
+

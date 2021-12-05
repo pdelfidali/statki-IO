@@ -36,12 +36,15 @@
                     <li class="nav-item active">
                         <a class="nav-link nav_hover" href="" style="color:white;">Some Field 1</a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link nav_hover" href="" style="color:white;">Some Field 2</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link nav_hover" href="" style="color:white;">Some Field 3</a>
-                    </li>
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item active">
+                            <img src="\static\avatars\{{ current_user.image_file }}" width="15" height="15">
+                            <a class="nav-link nav_hover" href="/profile/{{ current_user.username }}" style="color:white;">{{ current_user.username }}</a>
+                        </li>
+                        <li class="nav-item active">
+                           <a class="nav-link nav_hover" href="/logout" style="color:white;">Wyloguj się</a>
+                        </li>
+                    {% endif %}
                 </ul>
         </div>
     </nav>

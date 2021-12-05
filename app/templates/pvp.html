@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block page_content %}
+    <main class="container">
+            <div class="row">
+                <section class="col-sm-12 col-md-6 col-lg-4" class="border">
+                    <div class="field">
+                        <p>Gracz 1: <b>{{ current_user.username }}</b></p>
+                        <img src="../static/avatars/{{ current_user.image_file }}">
+                    </div>
+                </section>
+                <section class="col-sm-12 col-md-6 col-lg-4 border" class="border">
+                    <div class="field">
+                        {% if player2 and current_user %}
+                        <p>Rozpocznij rozgrywkę!</p>
+                        <a href="/game">
+                            <button class="go">Start</button>
+                        </a>
+                        {% else %}
+                        <p>Dwaj gracze muszą być zalogowani, żeby rozpocząć</p>
+                        {% endif %}
+                    </div>
+                </section>
+                <section class="col-sm-12 col-md-6 col-lg-4 border" class="border">
+                    <div class="field">
+                        <p>Gracz 2:
+                        {% if not player2 %}
+                            </p>
+                            {{ wtf.quick_form(form) }}
+                        {% else %}
+                            <b>{{ player2.username }}</b></p>
+                            <img src="../static/avatars/{{ player2.image_file }}">
+                            {{ wtf.quick_form(form2) }}
+                        {% endif %}
+                    </div>
+                </section>
+            </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block page_content %}
+    <main class="container">
+            <div class="row">
+                <section class="col-sm-12 col-md-6 col-lg-4" class="border">
+                    <div class="field">
+                        <p>Zagraj z drugim graczem na jednym ekranie!</p>
+                        <a href="/game/pvp">
+                            <button class="go">Gracz vs Gracz</button>
+                        </a>
+                    </div>
+                </section>
+                <section class="col-sm-12 col-md-6 col-lg-4 border" class="border">
+                    <div class="field">
+                        <p>Spróbuj pokonać komputer!</p>
+                        <a href="/game">
+                            <button class="go">Gracz vs Komputer</button>
+                        </a>
+                    </div>
+                </section>
+                <section class="col-sm-12 col-md-6 col-lg-4 border" class="border">
+                    <div class="field">
+                        <p>Zobacz pojedynek dwóch komputerów.</p>
+                        <a href="/game">
+                            <button class="go">Komputer vs Komputer</button>
+                        </a>
+                    </div>
+                </section>
+            </div>
+    </main>
+{% endblock %}

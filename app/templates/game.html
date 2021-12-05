@@ -50,7 +50,7 @@
                     <div class="row">
                         <article class="col-md-4">
                             <div class="panel_element">
-                                Aktualnie trwa tura gracza: <span id='player'></span>
+                                Aktualnie trwa tura gracza: <span id='player'>{{ current_user.username }}</span>
                             </div>
                         </article>
 
@@ -106,16 +106,17 @@
         var b1_shots = [];
         var b2_shots = [];
 
-        $('#player').html(player);
+        // nicki graczy
+        var player_one_nick = '{{ current_user.username }}';
+        player_one_nick = (player_one_nick.length == 0 ? '1' : player_one_nick);
+        var player_two_nick = '{{ session.get('Second Player', '2') }}';
+
+        $('#player').html(player_one_nick);
 
         // początkowe rozstawienie statków dla obu graczy
         set_ships(1);
         set_ships(2);
-        
-        // nicki graczy
-        var player_one_nick = '{{ current_user.username }}';
-        player_one_nick = (player_one_nick.length == 0 ? '1' : player_one_nick);
-        var player_two_nick = 'Siema';
+
 
         var ship_relocation = document.getElementById('ship_relocation');
         ship_relocation.addEventListener("click", () => { set_ships(player); });

@@ -44,6 +44,7 @@ def add_game(gameData):
     db.session.commit()
 
 
+@login_required
 @game.route('/pregame', methods=['POST', 'GET'])
 def pregame():
     return render_template('pregame.html')
@@ -78,3 +79,9 @@ def pvp():
         else:
             player2 = None
     return render_template('pvp.html', form=form, form2=form2, player2=player2)
+
+
+@game.route('/replay/<int:id>/', methods=['GET', 'POST'])
+def replay(id):
+    replay = Game.query.filter_by(id=id).first()
+    return render_template('replay.html', game=replay)

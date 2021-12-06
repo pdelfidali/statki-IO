@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block head %}
+    <title>Battleship</title>
+    <meta charset="utf-8">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Loved+by+the+King&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/game.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block page_content %}
+
+    <main>
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <section class="col-sm-12 col-md-4" class="board" id="left_board">
+                <div class="board">
+                    {% for n in range(100) %}
+                        <div id="b1_square{{n}}" class="square"></div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="col-sm-12 col-md-4" class="board" id="right_board">
+                <div class="board">
+                    {% for n in range(100) %}
+                        <div id="b2_square{{n}}" class="square"></div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <div class="col-md-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8">
+                <section id="gamepanel">
+                    <div class="row">
+                        <article class="col-md-4">
+                            <div class="panel_element">
+                                Gracz <b>{{ game.player1 }}</b>
+                            </div>
+                        </article>
+
+                        <article class="col-md-4">
+                            <div class="panel_element">
+                                Gracz <b>{{ game.player2 }}</b>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <script>
+        var b1_ships = {{ game.player1_ships }}
+        var b2_ships = {{ game.player2_ships }}
+        var b1_shots = {{ game.player2_shots }}
+        var b2_shots = {{ game.player1_shots }}
+    </script>
+    <script src="../../static/js/replay.js"></script>
+{% endblock %}

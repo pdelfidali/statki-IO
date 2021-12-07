@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block page_content %}
-    <div class="container">
+    <div class="field">
         {% if not current_user.is_authenticated %}
             {{ wtf.quick_form(form) }}
         {% else %}

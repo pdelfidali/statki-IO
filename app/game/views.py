@@ -25,8 +25,8 @@ def summary():
     return redirect('/game')
 
 
-@login_required
 @game.route('/game', methods=['POST', 'GET'])
+@login_required
 def play():
     return render_template('game.html')
 
@@ -44,8 +44,8 @@ def add_game(gameData):
     db.session.commit()
 
 
-@login_required
 @game.route('/pregame', methods=['POST', 'GET'])
+@login_required
 def pregame():
     return render_template('pregame.html')
 
@@ -60,8 +60,8 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Zaloguj się')
 
 
-@login_required
 @game.route('/game/pvp', methods=['POST', 'GET'])
+@login_required
 def pvp():
     form = LoginForm()
     form2 = LogoutForm()
@@ -85,3 +85,13 @@ def pvp():
 def replay(id):
     replay = Game.query.filter_by(id=id).first()
     return render_template('replay.html', game=replay)
+
+@game.route('/replays/<int:page_num>/', methods=['GET'])
+def history(page_num):
+    games = Game.query.paginate(page=page_num, per_page=3)
+    return render_template('history.html', games=games)
+
+@game.route('/replays', methods=['GET'])
+@game.route('/replay', methods=['GET'])
+def redirect_history():
+    return redirect('/replays/1')

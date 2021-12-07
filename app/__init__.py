@@ -12,6 +12,7 @@ basedir = Path(__file__).parent.absolute()
 login_manager = LoginManager()
 migrate = Migrate()
 
+
 def create_app():
     '''
     Funkcja zwraca zainicjalizowaną aplikację
@@ -52,5 +53,9 @@ def create_app():
     @app.route('/close')
     def close():
         return render_template('close.html')
+
+    @app.errorhandler(401)
+    def error401(e):
+        return render_template('401.html')
 
     return app

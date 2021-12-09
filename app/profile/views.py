@@ -48,7 +48,7 @@ def show_user(username):
         image_file = url_for('static', filename=f'avatars/{user.image_file}')
         my_stats = ''
         if current_user.is_authenticated:
-            my_stats = Stat.query.filter_by(username=current_user.username).first()
+            my_stats = Stat.query.filter_by(username=username).first()
         form = ChangeForm()
         if form.validate_on_submit():
             if form.old_password.data and form.new_password.data:

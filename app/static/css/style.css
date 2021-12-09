@@ -2,11 +2,63 @@ body {
     /* Background image downloaded from www.subtlepatterns.com */
     background-image: url(../img/stardust.png);
 }
-#data-table {
-    background-color: green !important;
+.personal-container{
+    color: black;
+    background-color: #A6A5A5;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 20px;
 }
-.table2{
-    border-style: solid;
+
+.profile-row-container{
+    margin: inherit;
+}
+#results-container{
+    max-width: 1000px;
+}
+
+#profile-main-container{
+      margin: 20px 30px 15px 15px;
+}
+img {
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+#data-table {
+    background-color: #A6A5A5;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+    color: black;
+}
+
+#container-table-statistics{
+    margin-top: 25px;
+}
+
+.table-title{
+    text-align: center;
+    font-size: 20px;
+}
+
+.text-right{
+    margin-right: 40px;
+}
+
+.btn{
+    background-color: #A6A5A5;
+    font-size: 30px;
+    color: black;
+    margin-right: 10px
+}
+
+a:link {
+  color: black;
+}
+
+a:visited {
+  color: #222222;
 }
 
 #intro {

@@ -58,4 +58,12 @@ def create_app():
     def error401(e):
         return render_template('401.html')
 
+    @app.errorhandler(404)
+    def error404(e):
+        return render_template('404.html')
+
+    @app.errorhandler(500)
+    def error500(e):
+        return render_template('500.html')
+
     return app

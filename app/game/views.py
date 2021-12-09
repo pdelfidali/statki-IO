@@ -1,6 +1,4 @@
 from flask import request, jsonify, redirect, render_template, json, flash, session
-from sqlalchemy import true, false
-
 from . import game
 from ..statistics.views import upload_resuls_after_game
 from .. import db
@@ -18,8 +16,13 @@ def summary():
     '''
     if request.method == "POST" and request.get_json():
         data = request.get_json()
-        upload_resuls_after_game(data['player'], "true", data['shots'], data['points'])
-        upload_resuls_after_game(data['second_player'], "false", data['second_shots'], data['second_points'])
+        print(data)
+        if (data['points'] > data['second_points']):
+            upload_resuls_after_game(data['player'], "true", data['shots'], data['points'])
+            upload_resuls_after_game(data['second_player'], "false", data['second_shots'], data['second_points'])
+        else:
+            upload_resuls_after_game(data['player'], "false", data['shots'], data['points'])
+            upload_resuls_after_game(data['second_player'], "true", data['second_shots'], data['second_points'])
         add_game(data)
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     return redirect('/game')

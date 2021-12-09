@@ -1,28 +1,61 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <table id="data-table" class="table table-sm table-borderless mb-0 table-light">
-    <thead>
-      <tr>
-        <th>user</th>
-        <th>games_won_percentage</th>
-        <th>shot_hit_percentage</th>
-      </tr>
-    </thead>
-    <tbody >
-      {% for user in users.items %}
+<body>
+  <div id="container-table-statistics" class="container-fluid my-3 border" >
+    <table id="data-table" class="table table2">
+      <thead>
         <tr>
-          {% if user.games and user.shots %}
-          <td>{{ user.username }}</td>
-          <td>{{ user.games }}</td>
-          <td>{{ user.shots }}</td>
-          {% else %}
-          <td>{{ user.username }}</td>
-          <td>{{ 0 }}</td>
-          <td>{{ 0 }}</td>
-          {% endif %}
+          <th>user</th>
+          <th>games_won_percentage</th>
+          <th>shot_hit_percentage</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody >
+        {% for user in users.items %}
+          <tr>
+            <td>{{ user.username }}</td>
+            {% if user.games %}
+            <td>{{ 100*user.games|round(2) }}</td>
+            {% else %}
+            <td>{{ 0 }}</td>
+            {% endif %}
+            {% if user.games %}
+            <td>{{ 100*user.shots|round(2) }}</td>
+            {% else %}
+            <td>{{ 0 }}</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="text-right">
+      <a href="/statistics/{{ users.prev_num }}"
+         class="btn btn-outline-dark
+         {% if users.page == 1 %}disabled{% endif %}">
+          &laquo;
+      </a>
+      {% for page_num in users.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}{% if page_num %}
+              {% if users.page == page_num %}
+              <a href="/statistics/{{ page_num }}"
+                 class="btn btn-dark">
+                  {{ page_num }}
+              </a>
+              {% else %}
+              <a href="/statistics/{{ page_num }}"
+                 class="btn btn-outline-dark">
+                  {{ page_num }}
+              </a>
+              {% endif %}
+          {% else %}
+              ...
+          {% endif %}
+      {% endfor %}    <a href="/statistics/{{ users.next_num }}"
+         class="btn btn-outline-dark
+         {% if users.page == users.pages %}disabled{% endif %}">
+          &raquo;
+      </a>
+  </div>
+</body>
 {% endblock %}

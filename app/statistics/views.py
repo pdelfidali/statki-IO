@@ -30,9 +30,9 @@ def upload_resuls_after_game(username, games_won, shot_total, shot_hit):
 @statistics.route('/statistics/<int:ann_id>', methods=['GET'])
 def print_top5(ann_id):
     page = request.args.get('page', ann_id, type=int)
-    user_best = Stat.query.with_entities(Stat.username, (cast(Stat.games_won_count, sqlalchemy.Float(precision=3))/Stat.games_total_count).label('games'), (cast(Stat.shot_hit_count, sqlalchemy.FLOAT(10,2))/Stat.shot_total_count).label('shots')).\
+    user_best = Stat.query.with_entities(Stat.username, (cast(Stat.games_won_count, sqlalchemy.Float)/Stat.games_total_count).label('games'), (cast(Stat.shot_hit_count, sqlalchemy.Float)/Stat.shot_total_count).label('shots')).\
         paginate(page=page, per_page=ROWS_PER_PAGE)
-    users_best = Stat.query.paginate(page=page, per_page=ROWS_PER_PAGE)
+    # users_best = Stat.query.paginate(page=page, per_page=ROWS_PER_PAGE)
 
     # # pokazuje wyniki obecnego uzytkownika
     # my_stats = ''

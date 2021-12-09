@@ -3,7 +3,10 @@ body {
     background-image: url(../img/stardust.png);
 }
 #data-table {
-    color: white;
+    background-color: green !important;
+}
+.table2{
+    border-style: solid;
 }
 
 #intro {

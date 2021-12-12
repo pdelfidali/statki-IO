@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block head %}
+    <title>Battleship</title>
+    <meta charset="utf-8">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Loved+by+the+King&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/game.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="math.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block page_content %}
+
+    <main>
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <section class="col-sm-12 col-md-4" class="board" id="left_board">
+                <div class="board">
+                    {% for n in range(100) %}
+                        <div id="b1_square{{n}}" class="square"></div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="col-sm-12 col-md-4" class="board" id="right_board">
+                <div class="board">
+                    {% for n in range(100) %}
+                        <div id="b2_square{{n}}" class="square"></div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <div class="col-md-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8">
+                <section id="gamepanel">
+                    <div class="row">
+                        <article class="col-md-5">
+                            <div class="panel_element">
+                                Aktualnie trwa tura gracza: <span id='player'>{{ current_user.username }}</span>
+                            </div>
+                        </article>
+
+                        <article class="col-md-3">
+                            <div  class="panel_element">
+                                <button type="button" id="game_trigger" onclick="start_game()">Rozpocznij Grę</button>
+                            </div>
+                        </article>
+                        
+                        <article class="col-md-3">
+                            <div class="panel_element">
+                                <button type="button" id="ship_relocation">Rozstaw statki</button>
+                            </div>
+                        </article>
+                        <article class="col-md-1"></article>
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-md-2"></div>
+        </div>
+    </main>
+
+    <script>
+        // nicki graczy
+        var player_nick = '{{ current_user.username }}';
+        var computer_nick = 'computer';
+    </script>
+    <script src="../../static/js/player_vs_computer.js"></script>
+{% endblock %}

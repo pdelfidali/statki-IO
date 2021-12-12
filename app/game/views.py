@@ -98,3 +98,7 @@ def history(page_num):
 @game.route('/replay', methods=['GET'])
 def redirect_history():
     return redirect('/replays/1')
+
+@game.route('/computer', methods=['GET'])
+def computer():
+    return render_template('computer.html')

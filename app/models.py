@@ -1,5 +1,3 @@
-from sqlalchemy import false
-
 from . import db, login_manager
 from werkzeug.security import  generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -11,6 +9,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(25), unique=True, index=True)
     image_file = db.Column(db.String(120), nullable=False, default='default.jpg')
     password_hash = db.Column(db.String(128))
+    is_bot = db.Column(db.Boolean, default=False)
 
     def password(self):
         raise AttributeError('User.password is protected')

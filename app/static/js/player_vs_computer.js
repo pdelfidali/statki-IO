@@ -1,4 +1,14 @@
-var WIN_POINTS = 1;
+const urlParams = new URLSearchParams(window.location.search);
+const level = urlParams.get('level');
+
+if (level == 'easy'){
+    computer_nick = 'Barbarossa';
+} else if (level == 'medium') {
+    computer_nick = 'Kapitan Jack';
+} else {
+    computer_nick = 'Krzysztof Kolumb';
+}
+var WIN_POINTS = 5;
 var game_started = false;
 var player_moved = false;
 
@@ -307,10 +317,32 @@ function handle_clicked_field(nr) {
 }
 
 function trigger_computer_move() {
-    setTimeout( () => {
-        field_nr = get_random_item(fields_valid_to_hit_on_player_board);
-        handle_clicked_field(field_nr);
-    }, 1000); 
+    if (level == 'easy') {
+        setTimeout(() => {
+            field_nr = get_random_item(fields_valid_to_hit_on_player_board);
+            handle_clicked_field(field_nr);
+        }, 1000);
+    } else if (level == 'medium') {
+         setTimeout(() => {
+             if (get_random_int(0,100) < 85) {
+                 field_nr = get_random_item(fields_valid_to_hit_on_player_board);
+                 handle_clicked_field(field_nr);
+             } else {
+                field_nr = get_random_item(fields_valid_to_hit_on_player_board.filter(value => b1_ships.includes(value)));
+                handle_clicked_field(field_nr);
+             }
+         }, 1000);
+    } else {
+        setTimeout(() => {
+             if (get_random_int(0,100) < 15) {
+                 field_nr = get_random_item(fields_valid_to_hit_on_player_board);
+                 handle_clicked_field(field_nr);
+             } else {
+                field_nr = get_random_item(fields_valid_to_hit_on_player_board.filter(value => b1_ships.includes(value)));
+                handle_clicked_field(field_nr);
+             }
+         }, 1000);
+    }
 }
 
 // wywoływana w przypadku celnego strzału

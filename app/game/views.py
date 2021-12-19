@@ -7,6 +7,7 @@ from flask_login import current_user, login_required
 from wtforms import SubmitField, StringField, PasswordField
 from wtforms.validators import DataRequired
 from flask_wtf import FlaskForm
+from sqlalchemy import desc
 
 
 @game.route('/game_summary', methods=['GET', 'POST'])
@@ -91,7 +92,7 @@ def replay(id):
 
 @game.route('/replays/<int:page_num>/', methods=['GET'])
 def history(page_num):
-    games = Game.query.paginate(page=page_num, per_page=3)
+    games = Game.query.order_by(desc('id')).paginate(page=page_num, per_page=3)
     return render_template('history.html', games=games)
 
 @game.route('/replays', methods=['GET'])

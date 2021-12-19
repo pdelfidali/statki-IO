@@ -5,7 +5,7 @@
 {% block page_content %}
     <main class="container">
             <div class="row">
-                <section class="col-sm-12 col-md-6 col-lg-4" class="border">
+                <section class="col-sm-12 col-md-6 col-lg-6" class="border">
                     <div class="field">
                         <p>Zagraj z drugim graczem na jednym ekranie!</p>
                         <a href="/game/pvp">
@@ -13,15 +13,7 @@
                         </a>
                     </div>
                 </section>
-                <section class="col-sm-12 col-md-6 col-lg-4 border" class="border">
-                    <div class="field">
-                        <p>Spróbuj pokonać komputer!</p>
-                        <a href="/computer">
-                            <button class="go">Gracz vs Komputer</button>
-                        </a>
-                    </div>
-                </section>
-                <section class="col-sm-12 col-md-6 col-lg-4 border" class="border">
+                <section class="col-sm-12 col-md-6 col-lg-6 border" class="border">
                     <div class="field">
                         <p>Zobacz pojedynek dwóch komputerów.</p>
                         <a href="/game">
@@ -30,5 +22,31 @@
                     </div>
                 </section>
             </div>
+        <div class="row">
+            <section class="col-sm-12 col-md-6 col-lg-4 border" class="border">
+                <div class="field">
+                    <p>Spróbuj pokonać komputer!</p>
+                    <a href="/computer?level=easy">
+                        <button class="go">Gracz vs Komputer (łatwy)</button>
+                    </a>
+                </div>
+            </section>
+            <section class="col-sm-12 col-md-6 col-lg-4 border" class="border">
+                <div class="field">
+                    <p>Spróbuj pokonać komputer!</p>
+                    <a href="/computer?level=medium">
+                        <button class="go">Gracz vs Komputer (średni)</button>
+                    </a>
+                </div>
+            </section>
+            <section class="col-sm-12 col-md-12 col-lg-4 border" class="border">
+                <div class="field">
+                    <p>Spróbuj pokonać komputer!</p>
+                    <a href="/computer?level=hard">
+                        <button class="go">Gracz vs Komputer (trudny)</button>
+                    </a>
+                </div>
+            </section>
+        </div>
     </main>
 {% endblock %}

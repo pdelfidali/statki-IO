@@ -103,3 +103,11 @@ def redirect_history():
 @game.route('/computer', methods=['GET'])
 def computer():
     return render_template('computer.html')
+
+@game.route('/cvc_pre', methods=['GET', 'POST'])
+def cvc_pre():
+    return render_template('cvc_pregame.html')
+
+@game.route('/cvc', methods=['GET', 'POST'])
+def cvc():
+    return render_template('cvc.html')

@@ -5,12 +5,12 @@ var player_moved = false;
 var current_player = 1;
 
 // liczba celnych strzałów oddanych prze danego gracza
-var player_points = 0;
-var computer_points = 0;
+var computer1_points = 0;
+var computer2_points = 0;
 
 // liczba strzałów oddnaych przez danego gracza
-var player_shots = 0;
-var computer_shots = 0;
+var computer1_shots = 0;
+var computer2_shots = 0;
 
 // uchwyty dla pól jako elementów DOM
 var b1_square = [];
@@ -24,9 +24,11 @@ var b2_ships = [];
 var b1_shots = [];
 var b2_shots = [];
 
-var fields_valid_to_hit_on_player_board = [];
+var fields_valid_to_hit_on_b1 = [];
+var fields_valid_to_hit_on_b2 = [];
 
-$('#player').html(player_nick);
+
+$('#player').html(computer1_nick);
 
 // początkowe rozstawienie statków dla obu graczy
 set_ships(1);
@@ -38,6 +40,9 @@ ship_relocation.addEventListener("click", () => { set_ships(current_player); });
 var ships = [];
 var second_ships = [];
 
+show_ships();
+disable_board();
+
 function start_game() {
     ships = [...b1_ships];
     second_ships = [...b2_ships];
@@ -47,13 +52,14 @@ function start_game() {
     for (let i = 0; i < 100; i++) {
         b1_square[i] = document.getElementById('b1_square' + i);
         b1_square[i].addEventListener("click", () => { handle_clicked_field(i); });
-        fields_valid_to_hit_on_player_board.push(i);
+        fields_valid_to_hit_on_b1.push(i);
     }
 
     // przypisz do wszystkich pól gracza nr 2 funkcję handle_clicked_field(nr)
     for (let i = 0; i < 100; i++) {
         b2_square[i] = document.getElementById('b2_square' + i);
         b2_square[i].addEventListener("click", () => { handle_clicked_field(i); });
+        fields_valid_to_hit_on_b2.push(i);
     }
 
     // wyszarzanie przycisków 'rozpocznij grę' i 'rozstaw statki'
@@ -65,13 +71,10 @@ function start_game() {
 
     $('#game_trigger').css('pointer-events', 'none');
     $('#ship_relocation').css('pointer-events', 'none');
-    
-    current_player = 1;
-    hide_ships(2);
-    show_ships(1);
-    $('#player').html(current_player);
 
-    disable_board('1');
+    current_player = 1;
+    $('#player').html(current_player);
+    trigger_computer_move(current_player);
 }
 
 // rozmieszcza statki na wybranej planszy
@@ -81,7 +84,6 @@ function set_ships(board_nr) {
         possible_moves.push(i);
     }
 
-    hide_ships(board_nr);
 
     let aleatory_factors = [];
 
@@ -93,13 +95,13 @@ function set_ships(board_nr) {
 
     if (board_nr == 1) {
         b1_ships = [];
-        
+
         if (aleatory_factors.indexOf(1) != -1) [b1_ships, possible_moves] = create_ship(4, b1_ships, possible_moves, true);
         if (aleatory_factors.indexOf(2) != -1) [b1_ships, possible_moves] = create_ship(3, b1_ships, possible_moves, true);
         if (aleatory_factors.indexOf(3) != -1) [b1_ships, possible_moves] = create_ship(3, b1_ships, possible_moves, true);
         if (aleatory_factors.indexOf(4) != -1) [b1_ships, possible_moves] = create_ship(2, b1_ships, possible_moves, true);
         if (aleatory_factors.indexOf(5) != -1) [b1_ships, possible_moves] = create_ship(2, b1_ships, possible_moves, true);
-        
+
 
         if (aleatory_factors.indexOf(1) == -1) [b1_ships, possible_moves] = create_ship(4, b1_ships, possible_moves);
         if (aleatory_factors.indexOf(2) == -1) [b1_ships, possible_moves] = create_ship(3, b1_ships, possible_moves);
@@ -107,20 +109,20 @@ function set_ships(board_nr) {
         if (aleatory_factors.indexOf(4) == -1) [b1_ships, possible_moves] = create_ship(2, b1_ships, possible_moves);
         if (aleatory_factors.indexOf(5) == -1) [b1_ships, possible_moves] = create_ship(2, b1_ships, possible_moves);
 
-        [b1_ships, possible_moves] = create_ship(2, b1_ships, possible_moves); 
+        [b1_ships, possible_moves] = create_ship(2, b1_ships, possible_moves);
         [b1_ships, possible_moves] = create_ship(1, b1_ships, possible_moves);
         [b1_ships, possible_moves] = create_ship(1, b1_ships, possible_moves);
         [b1_ships, possible_moves] = create_ship(1, b1_ships, possible_moves);
-        [b1_ships, possible_moves] = create_ship(1, b1_ships, possible_moves); 
+        [b1_ships, possible_moves] = create_ship(1, b1_ships, possible_moves);
     } else if (board_nr == 2) {
         b2_ships = [];
-        
+
         if (aleatory_factors.indexOf(1) != -1) [b2_ships, possible_moves] = create_ship(4, b2_ships, possible_moves, true);
         if (aleatory_factors.indexOf(2) != -1) [b2_ships, possible_moves] = create_ship(3, b2_ships, possible_moves, true);
         if (aleatory_factors.indexOf(3) != -1) [b2_ships, possible_moves] = create_ship(3, b2_ships, possible_moves, true);
         if (aleatory_factors.indexOf(4) != -1) [b2_ships, possible_moves] = create_ship(2, b2_ships, possible_moves, true);
         if (aleatory_factors.indexOf(5) != -1) [b2_ships, possible_moves] = create_ship(2, b2_ships, possible_moves, true);
-        
+
 
         if (aleatory_factors.indexOf(1) == -1) [b2_ships, possible_moves] = create_ship(4, b2_ships, possible_moves);
         if (aleatory_factors.indexOf(2) == -1) [b2_ships, possible_moves] = create_ship(3, b2_ships, possible_moves);
@@ -128,17 +130,11 @@ function set_ships(board_nr) {
         if (aleatory_factors.indexOf(4) == -1) [b2_ships, possible_moves] = create_ship(2, b2_ships, possible_moves);
         if (aleatory_factors.indexOf(5) == -1) [b2_ships, possible_moves] = create_ship(2, b2_ships, possible_moves);
 
-        [b2_ships, possible_moves] = create_ship(2, b2_ships, possible_moves); 
+        [b2_ships, possible_moves] = create_ship(2, b2_ships, possible_moves);
         [b2_ships, possible_moves] = create_ship(1, b2_ships, possible_moves);
         [b2_ships, possible_moves] = create_ship(1, b2_ships, possible_moves);
         [b2_ships, possible_moves] = create_ship(1, b2_ships, possible_moves);
-        [b2_ships, possible_moves] = create_ship(1, b2_ships, possible_moves); 
-    }
-
-    if (current_player == 1) {
-        show_ships(1);
-    } else if (current_player == 2) {
-        show_ships(2);
+        [b2_ships, possible_moves] = create_ship(1, b2_ships, possible_moves);
     }
 }
 
@@ -209,7 +205,7 @@ function create_ship(size, ships, possible_moves, horizontal = false) {
             }
         }
     }
-    
+
 
     return [ships, possible_moves];
 }
@@ -227,111 +223,115 @@ function remove_items_for_hit_field(possible_moves, item) {
     return possible_moves;
 }
 
-// pokaż wszystkie niezatopione statki na planszy
-function show_ships(board_nr) {
-    if (board_nr == 2) {
-        return;
+function show_ships() {
+    for (const field of b1_ships) {
+        $('#' + 'b1_square' + field).removeClass('square');
+        $('#' + 'b1_square' + field).addClass('square_ship');
     }
 
-    const prefix = (board_nr == 1 ? 'b1_square' : 'b2_square');
-
-    if (board_nr == 1) {
-        for (const field of b1_ships) {
-            $('#' + prefix + field).removeClass('square');
-            $('#' + prefix + field).addClass('square_ship');
-        }
-    } else if (board_nr == 2) {
-        for (const field of b2_ships) {
-            $('#' + prefix + field).removeClass('square');
-            $('#' + prefix + field).addClass('square_ship');
-        }
-    }
-} 
-
-// ukryj wszystkie statki na danej planszy
-function hide_ships(board_nr) {
-
-    const prefix = (board_nr == 1 ? 'b1_square' : 'b2_square');
-
-    if (board_nr == 1) {
-        for (const field of b1_ships) {
-            $('#' + prefix + field).removeClass('square_ship');
-            $('#' + prefix + field).addClass('square');
-        }
-    } else if (board_nr == 2) {
-        for (const field of b2_ships) {
-            $('#' + prefix + field).removeClass('square_ship');
-            $('#' + prefix + field).addClass('square');
-        }
+    for (const field of b2_ships) {
+        $('#' + 'b2_square' + field).removeClass('square');
+        $('#' + 'b2_square' + field).addClass('square_ship');
     }
 }
+
 
 // obsługuje naciśnięcie danego pola
 function handle_clicked_field(nr) {
     if (current_player == 1) {
-        player_shots++;
+        computer1_shots++;
         b1_shots.push(nr);
+        fields_valid_to_hit_on_b1 = remove_single_item(fields_valid_to_hit_on_b1, nr);
         if (b2_ships.includes(nr)) { // przypadek, w którym gracz nr 1 trafił
-            player_points++;
+            computer1_points++;
             flip_success(nr);
-            if (player_points == WIN_POINTS || computer_points == WIN_POINTS) {
-                disable_board('1');
-                disable_board('2');
+            if (computer1_points == WIN_POINTS || computer2_points == WIN_POINTS) {
+                disable_board();
                 end_game();
+            } else {
+                trigger_computer_move(current_player);
             }
         } else { // przypadek, w którym gracz nr 1 spudłował
             flip_failure(nr);
-            disable_board('2');
             switch_player();
-            trigger_computer_move();
+            trigger_computer_move(current_player);
         }
-    } else if (current_player == 2) { 
-        computer_shots++;
+    } else if (current_player == 2) {
+        computer2_shots++;
         b2_shots.push(nr);
-        fields_valid_to_hit_on_player_board = remove_single_item(fields_valid_to_hit_on_player_board, nr);
+        fields_valid_to_hit_on_b2 = remove_single_item(fields_valid_to_hit_on_b2, nr);
         if (b1_ships.includes(nr)) { // przypadek, w którym komputer trafił
-            computer_points++; 
+            computer2_points++;
             flip_success(nr);
-            if (player_points == WIN_POINTS || computer_points == WIN_POINTS) {
-                disable_board('1');
-                disable_board('2');
+            if (computer1_points == WIN_POINTS || computer2_points == WIN_POINTS) {
+                disable_board();
                 end_game();
             } else {
-                trigger_computer_move();
+                trigger_computer_move(current_player);
             }
         } else { // przypadek, w którym komputer spudłował
             flip_failure(nr);
             switch_player();
+            trigger_computer_move(current_player);
         }
     }
 }
 
-function trigger_computer_move() {
-    if (level == 'easy') {
-        setTimeout(() => {
-            field_nr = get_random_item(fields_valid_to_hit_on_player_board);
-            handle_clicked_field(field_nr);
-        }, 1000);
-    } else if (level == 'medium') {
-         setTimeout(() => {
-             if (get_random_int(0,100) < 85) {
-                 field_nr = get_random_item(fields_valid_to_hit_on_player_board);
-                 handle_clicked_field(field_nr);
-             } else {
-                field_nr = get_random_item(fields_valid_to_hit_on_player_board.filter(value => b1_ships.includes(value)));
+function trigger_computer_move(computer) {
+    if (computer == 1) {
+        if (bot1 == 'easy') {
+            setTimeout(() => {
+                field_nr = get_random_item(fields_valid_to_hit_on_b2);
                 handle_clicked_field(field_nr);
-             }
-         }, 1000);
+            }, 1000);
+        } else if (bot1 == 'medium') {
+            setTimeout(() => {
+                if (get_random_int(0, 100) < 85) {
+                    field_nr = get_random_item(fields_valid_to_hit_on_b2);
+                    handle_clicked_field(field_nr);
+                } else {
+                    field_nr = get_random_item(fields_valid_to_hit_on_b2.filter(value => b2_ships.includes(value)));
+                    handle_clicked_field(field_nr);
+                }
+            }, 1000);
+        } else {
+            setTimeout(() => {
+                if (get_random_int(0, 100) < 15) {
+                    field_nr = get_random_item(fields_valid_to_hit_on_b2);
+                    handle_clicked_field(field_nr);
+                } else {
+                    field_nr = get_random_item(fields_valid_to_hit_on_b2.filter(value => b2_ships.includes(value)));
+                    handle_clicked_field(field_nr);
+                }
+            }, 1000);
+        }
     } else {
-        setTimeout(() => {
-             if (get_random_int(0,100) < 15) {
-                 field_nr = get_random_item(fields_valid_to_hit_on_player_board);
-                 handle_clicked_field(field_nr);
-             } else {
-                field_nr = get_random_item(fields_valid_to_hit_on_player_board.filter(value => b1_ships.includes(value)));
+        if (bot2 == 'easy') {
+            setTimeout(() => {
+                field_nr = get_random_item(fields_valid_to_hit_on_b1);
                 handle_clicked_field(field_nr);
-             }
-         }, 1000);
+            }, 1000);
+        } else if (bot2 == 'medium') {
+            setTimeout(() => {
+                if (get_random_int(0, 100) < 85) {
+                    field_nr = get_random_item(fields_valid_to_hit_on_b1);
+                    handle_clicked_field(field_nr);
+                } else {
+                    field_nr = get_random_item(fields_valid_to_hit_on_b1.filter(value => b1_ships.includes(value)));
+                    handle_clicked_field(field_nr);
+                }
+            }, 1000);
+        } else {
+            setTimeout(() => {
+                if (get_random_int(0, 100) < 15) {
+                    field_nr = get_random_item(fields_valid_to_hit_on_b1);
+                    handle_clicked_field(field_nr);
+                } else {
+                    field_nr = get_random_item(fields_valid_to_hit_on_b1.filter(value => b1_ships.includes(value)));
+                    handle_clicked_field(field_nr);
+                }
+            }, 1000);
+        }
     }
 }
 
@@ -363,32 +363,20 @@ function flip_failure(nr) {
 
 // zamień aktualnego gracza
 function switch_player() {
-    var board_to_enable = current_player;
-    var board_to_hide_ships = board_to_enable;
-    var board_to_show_ships = (board_to_hide_ships == 1 ? 2 : 1);
-    
     current_player = (current_player == 1 ? 2 : 1);
     if (current_player == 1){
-        $('#player').html(player_nick);
+        $('#player').html(computer1_nick);
     }
     else {
-        $('#player').html(computer_nick);
+        $('#player').html(computer2_nick);
     }
-
-    enable_board(String(board_to_enable));
-    if (board_to_hide_ships != 1) {
-        hide_ships(board_to_hide_ships);
-    }
-    
-    setTimeout( () => {
-        show_ships(board_to_show_ships);
-    }, 200 );
 }
 
 // blokuje możliwość oddania strzału na danej planszy
-function disable_board(nr) {
+function disable_board() {
     for (let i = 0; i < 100; i++) {
-        $("#b" + nr + "_square" + i).css("pointer-events", "none");
+        $("#b1_square" + i).css("pointer-events", "none")
+        $("#b2_square" + i).css("pointer-events", "none");
     }
 }
 
@@ -404,26 +392,25 @@ function enable_board(nr) {
 }
 
 function end_game() {
-    if (player_points == WIN_POINTS) {
+    if (computer1_points == WIN_POINTS) {
         alert("Zwycięża gracz 1");
-    } else if (computer_points == WIN_POINTS) {
+    } else if (computer2_points == WIN_POINTS) {
         alert("Zwycięża gracz 2");
     }
 
     // zablokowanie obu planszy
     () => {
-        disable_board('1');
-        disable_board('2');
+        disable_board();
     }
 
     // przesłanie danych z rozgrywki do serwera
     var game_summary = {
-        'player' : player_nick,
-        'shots' : player_shots,
-        'points' : player_points,
-        'second_player' : computer_nick,
-        'second_shots' : computer_shots,
-        'second_points' : computer_points,
+        'player' : computer1_nick,
+        'shots' : computer1_shots,
+        'points' : computer1_points,
+        'second_player' : computer2_nick,
+        'second_shots' : computer2_shots,
+        'second_points' : computer2_points,
         'ships' : ships,
         'second_ships' : second_ships,
         'shot_list' : b1_shots,
@@ -464,5 +451,5 @@ function remove_single_item(arr, value) {
 }
 
 function get_random_item(arr) {
-    return arr[Math.floor(Math.random()*arr.length)]; 
+    return arr[Math.floor(Math.random()*arr.length)];
 }

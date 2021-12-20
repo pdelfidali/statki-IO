@@ -49,7 +49,7 @@
                     <div class="row">
                         <article class="col-md-5">
                             <div class="panel_element">
-                                Aktualnie trwa tura gracza: <span id='player'>{{ current_user.username }}</span>
+                                Aktualnie trwa tura gracza: <span id='player'></span>
                             </div>
                         </article>
 
@@ -58,10 +58,10 @@
                                 <button type="button" id="game_trigger" onclick="start_game()">Rozpocznij Grę</button>
                             </div>
                         </article>
-                        
+
                         <article class="col-md-3">
                             <div class="panel_element">
-                                <button type="button" id="ship_relocation">Rozstaw statki</button>
+                                <button type="button" id="ship_relocation" disabled="disabled">Rozstaw statki</button>
                             </div>
                         </article>
                         <article class="col-md-1"></article>
@@ -75,17 +75,26 @@
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const level = urlParams.get('level');
-        var computer_nick;
+        const bot1 = urlParams.get('bot1');
+        const bot2 = urlParams.get('bot2');
+        var computer1_nick, computer2_nick;
 
-        if (level == 'easy'){
-            computer_nick = 'Barbarossa';
-        } else if (level == 'medium') {
-            computer_nick = 'Kapitan Jack';
+        if (bot1 == 'easy'){
+            computer1_nick = 'Barbarossa';
+        } else if (bot1 == 'medium') {
+            computer1_nick = 'Kapitan Jack';
         } else {
-            computer_nick = 'Krzysztof Kolumb';
+            computer1_nick = 'Krzysztof Kolumb';
         }
-        var player_nick = '{{ current_user.username }}';
+
+        if (bot2 == 'easy'){
+            computer2_nick = 'Barbarossa';
+        } else if (bot2 == 'medium') {
+            computer2_nick = 'Kapitan Jack';
+        } else {
+            computer2_nick = 'Krzysztof Kolumb';
+        }
+        console.log(computer1_nick, computer2_nick)
     </script>
-    <script src="../../static/js/player_vs_computer.js"></script>
+    <script src="../../static/js/computer_vs_computer.js"></script>
 {% endblock %}

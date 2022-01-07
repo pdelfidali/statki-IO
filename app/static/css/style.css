@@ -9,7 +9,15 @@ body {
     border-radius: 10px;
     font-size: 20px;
 }
+.left {
+  position: absolute;
+  left: 100px;
+}
 
+.right {
+  position: absolute;
+  right: 370px;
+}
 .profile-row-container{
     margin: inherit;
 }

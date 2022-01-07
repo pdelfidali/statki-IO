@@ -4,41 +4,66 @@
 {% block page_content %}
 <div class="container-fluid" id="profile-main-container">
     <div class="row profile-row-container">
+        {% if user.is_active %}
         <div class="container col-sm-4 personal-container" >
             <img src="{{ image_file }}">
             <h1>{{ user.username }}</h1>
         </div>
         {% if user.username == current_user.username %}
+        {% if user.games_total_count %}
         <div class="container-fluid personal-container">
             <h1>Twoje osiągnięcia:</h1>
             <p>Zagrałeś w {{ user_statistics.games_total_count }} gier</p>
-            <p>Wygrałeś {{ (user_statistics.games_won_count/user_statistics.games_total_count) | round(2) }}% z nich</p>
-            <p>Twój procent celnych strzałów to: {{ (user_statistics.shot_hit_count/user_statistics.shot_total_count) | round(2)}}%</p><br>
+            <p>Wygrałeś {{ 100*(user_statistics.games_won_count/user_statistics.games_total_count) | round(2)}}% z nich</p>
+            <p>Twój procent celnych strzałów to: {{ 100* (user_statistics.shot_hit_count/user_statistics.shot_total_count) | round(2)}}%</p><br>
+        </div>
+        {% else %}
+        <div class="container-fluid personal-container">
+            <h1>Twoje osiągnięcia:</h1>
+            <p>Zagrałeś w {{ user_statistics.games_total_count }} gier</p>
+            <p>Wygrałeś {{ 0 }}% z nich</p>
+            <p>Twój procent celnych strzałów to: {{ 0 }}%</p><br>
+        </div>
+        {% endif %}
+        {% else %}
+        {% if user.games_total_count %}
+        <div class="container-fluid personal-container">
+            <h1>Osiągnięcia gracza {{ user_statistics.username }}:</h1>
+            <p>Ilość zagranych gier: {{ user_statistics.games_total_count }}</p>
+            <p>Procent wygranych gier: {{ 100* (user_statistics.games_won_count/user_statistics.games_total_count) | round(2) }}% </p>
+            <p>Procent celnych strzałów: {{ 100* (user_statistics.shot_hit_count/user_statistics.shot_total_count) | round(2)}}%</p><br>
         </div>
         {% else %}
         <div class="container-fluid personal-container">
             <h1>Osiągnięcia gracza {{ user_statistics.username }}:</h1>
             <p>Ilość zagranych gier: {{ user_statistics.games_total_count }}</p>
-            <p>Procent wygranych gier: {{ (user_statistics.games_won_count/user_statistics.games_total_count) | round(2) }}% </p>
-            <p>Procent celnych strzałów: {{ (user_statistics.shot_hit_count/user_statistics.shot_total_count) | round(2)}}%</p><br>
+            <p>Procent wygranych gier: {{ 100* (user_statistics.games_won_count/user_statistics.games_total_count) | round(2) }}% </p>
+            <p>Procent celnych strzałów: {{ 100* (user_statistics.shot_hit_count/user_statistics.shot_total_count) | round(2)}}%</p><br>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% else %}
+        <div class="container-fluid personal-container">
+            <p> Konto użytkownika {{ user.username }} zostalo zdezaktywowane </p>
         </div>
         {% endif %}
     </div>
-    {% if user.username == current_user.username %}
+    {% if user.username == current_user.username and user.is_active %}
     <div class="row profile-row-container">
         <div class="container col-sm-12 personal-container">
             <form method="POST" action="" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
                 <fieldset class="form-group">
                     <div class="form-group">
+                        <div class="container col-sm-2 left">
                         {{ form.old_password.label() }}
                         {{ form.old_password() }}
-                    </div>
-                    <div class="form-group">
+                        </br>
                         {{ form.new_password.label() }}
                         {{ form.new_password() }}
+                        </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group right">
                         {{ form.file.label() }}
                         {{ form.file(class="form-control-file") }}
                         {% if form.file.errors %}
@@ -49,7 +74,8 @@
                     </div>
                 </fieldset>
                  <div class="form-group">
-                    {{ form.submit(class="btn btn-outline-info") }}
+                    {{ form.submit(class="btn btn-outline-info btn-lg") }}
+                    {{ form.deactivate(class="btn btn-outline-info btn-lg btn-block") }}
                 </div>
 
             </form>

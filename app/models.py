@@ -10,6 +10,7 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(120), nullable=False, default='default.jpg')
     password_hash = db.Column(db.String(128))
     is_bot = db.Column(db.Boolean, default=False)
+    is_active = db.Column(db.Boolean, default=True)
 
     def password(self):
         raise AttributeError('User.password is protected')
@@ -20,7 +21,10 @@ class User(db.Model, UserMixin):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def deactivate_user(self):
+        self.is_active = False
     @login_manager.user_loader
+
     def load_user(user_id):
         return User.query.get(int(user_id))
 
@@ -36,11 +40,11 @@ class Stat(db.Model):
     shot_total_count = db.Column(db.Integer, default=0)
     shot_hit_count = db.Column(db.Integer, default=0)
 
-    def change_statistics(self, games_won='false', shot_total=0, shot_hits=0):
+    def change_statistics(self, game_won='false', shot_total=0, shot_hits=0):
         self.games_total_count += 1
         self.shot_total_count += shot_total
         self.shot_hit_count += shot_hits
-        if games_won == 'true':
+        if game_won == 'true':
             self.games_won_count += 1
 
     def __repr__(self):

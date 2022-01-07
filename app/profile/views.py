@@ -17,6 +17,7 @@ class ChangeForm(FlaskForm):
     new_password = PasswordField('Nowe hasło')
     file = FileField('Zmień swój Awatar', validators=[FileAllowed(['jpg', 'png'], message='Plik musi mieć rozszerzenie .jpg lub .png')])
     submit = SubmitField('Potwierdź')
+    deactivate = SubmitField('Zdezaktywuj swoje konto')
 
 
 def save_picture(form_picture):
@@ -46,23 +47,26 @@ def show_user(username):
     user = User.query.filter_by(username=username).first()
     if user:
         image_file = url_for('static', filename=f'avatars/{user.image_file}')
-        my_stats = ''
-        if current_user.is_authenticated:
-            my_stats = Stat.query.filter_by(username=username).first()
+        my_stats = Stat.query.filter_by(username=username).first()
         form = ChangeForm()
         if form.validate_on_submit():
-            if form.old_password.data and form.new_password.data:
-                user = User.query.filter_by(username=current_user.username).first()
-                if user.verify_password(form.old_password.data):
-                    user.newpassword(form.new_password.data)
+            if form.submit.data:
+                if form.old_password.data and form.new_password.data:
+                    user = User.query.filter_by(username=current_user.username).first()
+                    if user.verify_password(form.old_password.data):
+                        user.newpassword(form.new_password.data)
+                        db.session.commit()
+                        flash('Poprawnie zmieniono hasło')
+                    else:
+                        flash('Błędne hasło')
+                if form.file.data:
+                    user.image_file = save_picture(form.file.data)
                     db.session.commit()
-                    flash('Poprawnie zmieniono hasło')
-                else:
-                    flash('Błędne hasło')
-            if form.file.data:
-                user.image_file = save_picture(form.file.data)
+                    return redirect(request.url)
+            elif form.deactivate.data:
+                User.deactivate_user(user)
                 db.session.commit()
-                return redirect(request.url)
+                return redirect('/logout')
         return render_template('profile.html', user=user, form=form, image_file=image_file, user_statistics=my_stats)
     else:
         flash(f'Użytkownik o nicku {username} nie istnieje')

@@ -10,37 +10,19 @@
             <h1>{{ user.username }}</h1>
         </div>
         {% if user.username == current_user.username %}
-        {% if user.games_total_count %}
         <div class="container-fluid personal-container">
             <h1>Twoje osiągnięcia:</h1>
-            <p>Zagrałeś w {{ user_statistics.games_total_count }} gier</p>
-            <p>Wygrałeś {{ 100*(user_statistics.games_won_count/user_statistics.games_total_count) | round(2)}}% z nich</p>
-            <p>Twój procent celnych strzałów to: {{ 100* (user_statistics.shot_hit_count/user_statistics.shot_total_count) | round(2)}}%</p><br>
-        </div>
-        {% else %}
-        <div class="container-fluid personal-container">
-            <h1>Twoje osiągnięcia:</h1>
-            <p>Zagrałeś w {{ user_statistics.games_total_count }} gier</p>
-            <p>Wygrałeś {{ 0 }}% z nich</p>
-            <p>Twój procent celnych strzałów to: {{ 0 }}%</p><br>
-        </div>
-        {% endif %}
-        {% else %}
-        {% if user.games_total_count %}
-        <div class="container-fluid personal-container">
-            <h1>Osiągnięcia gracza {{ user_statistics.username }}:</h1>
-            <p>Ilość zagranych gier: {{ user_statistics.games_total_count }}</p>
-            <p>Procent wygranych gier: {{ 100* (user_statistics.games_won_count/user_statistics.games_total_count) | round(2) }}% </p>
-            <p>Procent celnych strzałów: {{ 100* (user_statistics.shot_hit_count/user_statistics.shot_total_count) | round(2)}}%</p><br>
+            <p>Zagrałeś w {{ user_statistics.games_count }} gier</p>
+            <p>Wygrałeś {{ 100*(user_statistics.games) | round(2) }}% z nich</p>
+            <p>Twój procent celnych strzałów to: {{ 100* (user_statistics.shots) | round(2) }}%</p><br>
         </div>
         {% else %}
         <div class="container-fluid personal-container">
             <h1>Osiągnięcia gracza {{ user_statistics.username }}:</h1>
-            <p>Ilość zagranych gier: {{ user_statistics.games_total_count }}</p>
-            <p>Procent wygranych gier: {{ 100* (user_statistics.games_won_count/user_statistics.games_total_count) | round(2) }}% </p>
-            <p>Procent celnych strzałów: {{ 100* (user_statistics.shot_hit_count/user_statistics.shot_total_count) | round(2)}}%</p><br>
+            <p>Ilość zagranych gier: {{ user_statistics.games_count }}</p>
+            <p>Procent wygranych gier: {{ 100*(user_statistics.games) | round(2) }}% </p>
+            <p>Procent celnych strzałów: {{ 100* (user_statistics.shots) | round(2) }}%</p><br>
         </div>
-        {% endif %}
         {% endif %}
         {% else %}
         <div class="container-fluid personal-container">

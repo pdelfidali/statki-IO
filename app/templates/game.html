@@ -450,10 +450,11 @@
             $('#player_swap').css('pointer-events', 'none');
             
             if (player_one_points == WIN_POINTS) {
-                alert("Zwycięża gracz 1");
+                var text = "Zwycięża " + player_one_nick;
             } else if (player_two_points == WIN_POINTS) {
-                alert("Zwycięża komputer");
+                var text = "Zwycięża " + player_two_nick;
             }
+            alert(text);
 
             // zablokowanie obu planszy
             () => {

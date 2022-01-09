@@ -17,7 +17,6 @@ def summary():
     '''
     if request.method == "POST" and request.get_json():
         data = request.get_json()
-        print(data)
         if (data['points'] > data['second_points']):
             upload_resuls_after_game(data['player'], "true", data['shots'], data['points'])
             upload_resuls_after_game(data['second_player'], "false", data['second_shots'], data['second_points'])
@@ -72,7 +71,6 @@ def pvp():
     player2 = None
     if form2.validate_on_submit() and form2.logout.data:
         session.pop('Second Player', None)
-        print(form2.logout.data)
     elif session.get('Second Player'):
         player2 = User.query.filter_by(username=session.get('Second Player')).first()
     elif form.validate_on_submit():
@@ -90,23 +88,28 @@ def replay(id):
     replay = Game.query.filter_by(id=id).first()
     return render_template('replay.html', game=replay)
 
+
 @game.route('/replays/<int:page_num>/', methods=['GET'])
 def history(page_num):
     games = Game.query.order_by(desc('id')).paginate(page=page_num, per_page=3)
     return render_template('history.html', games=games)
+
 
 @game.route('/replays', methods=['GET'])
 @game.route('/replay', methods=['GET'])
 def redirect_history():
     return redirect('/replays/1')
 
+
 @game.route('/computer', methods=['GET'])
 def computer():
     return render_template('computer.html')
 
+
 @game.route('/cvc_pre', methods=['GET', 'POST'])
 def cvc_pre():
     return render_template('cvc_pregame.html')
+
 
 @game.route('/cvc', methods=['GET', 'POST'])
 def cvc():

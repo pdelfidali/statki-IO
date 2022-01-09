@@ -28,7 +28,6 @@ function show_ships() {
 }
 
 function handle_shot(nr) {
-    console.log(player + ': ' + nr);
 
     if (player == 1) {
         if (b2_ships.includes(nr)) {

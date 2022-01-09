@@ -4,7 +4,10 @@
 // Strona która zamknie otwarte okienko po logowaniu/rejestracji
 {% block page_content %}
     <script>
-    //TODO można dodać jakąś animacje kółko czy pasek jak będzie czas
         window.setTimeout(window.close, 2000)
+        window.onunload = refreshParent;
+        function refreshParent() {
+            window.opener.location.reload();
+        }
     </script>
 {% endblock %}

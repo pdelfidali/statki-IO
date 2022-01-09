@@ -8,6 +8,10 @@ import secrets, os
 from app import basedir, db
 from PIL import Image
 from flask_login import current_user
+from sqlalchemy import cast
+import sqlalchemy
+from sqlalchemy import text
+
 
 class ChangeForm(FlaskForm):
     '''
@@ -15,7 +19,8 @@ class ChangeForm(FlaskForm):
     '''
     old_password = PasswordField('Aktualne hasło')
     new_password = PasswordField('Nowe hasło')
-    file = FileField('Zmień swój Awatar', validators=[FileAllowed(['jpg', 'png'], message='Plik musi mieć rozszerzenie .jpg lub .png')])
+    file = FileField('Zmień swój Awatar',
+                     validators=[FileAllowed(['jpg', 'png'], message='Plik musi mieć rozszerzenie .jpg lub .png')])
     submit = SubmitField('Potwierdź')
     deactivate = SubmitField('Zdezaktywuj swoje konto')
 
@@ -37,6 +42,22 @@ def save_picture(form_picture):
     i.save(picture_path)
     return picture_fn
 
+
+def user_statistics(username):
+    '''
+    :param username: user which profile is viewed
+    :return: selected user statistics to print on profile page
+    '''
+    sql = text(f"select username, games_total_count as games_count, "
+               f"coalesce(cast(games_won_count as float)/nullif(games_total_count, 0), 0) as games, "
+               f"coalesce(cast(shot_hit_count as float)/nullif(shot_total_count, 0), 0) as shots "
+               f"from stat where username='{username}'")
+    result = db.engine.execute(sql)
+    for row in result:
+        user_statistics = row
+    return user_statistics
+
+
 @profile.route('/profile/<username>', methods=['GET', 'POST'])
 def show_user(username):
     '''
@@ -47,7 +68,7 @@ def show_user(username):
     user = User.query.filter_by(username=username).first()
     if user:
         image_file = url_for('static', filename=f'avatars/{user.image_file}')
-        my_stats = Stat.query.filter_by(username=username).first()
+        user_stats = user_statistics(username)
         form = ChangeForm()
         if form.validate_on_submit():
             if form.submit.data:
@@ -67,7 +88,7 @@ def show_user(username):
                 User.deactivate_user(user)
                 db.session.commit()
                 return redirect('/logout')
-        return render_template('profile.html', user=user, form=form, image_file=image_file, user_statistics=my_stats)
+        return render_template('profile.html', user=user, form=form, image_file=image_file, user_statistics=user_stats)
     else:
         flash(f'Użytkownik o nicku {username} nie istnieje')
         return redirect('/')

@@ -405,10 +405,11 @@ function enable_board(nr) {
 
 function end_game() {
     if (player_points == WIN_POINTS) {
-        alert("Zwycięża gracz 1");
+        var text = "Zwycięża " + player_nick;
     } else if (computer_points == WIN_POINTS) {
-        alert("Zwycięża gracz 2");
+        var text = "Zwycięża " + computer_nick;
     }
+    alert(text);
 
     // zablokowanie obu planszy
     () => {
@@ -430,7 +431,6 @@ function end_game() {
         'second_shot_list' : b2_shots,
     }
 
-    console.log(JSON.stringify(game_summary))
     $.ajax({
         type: "POST",
         contentType: "application/json",

@@ -147,19 +147,50 @@ label {
     position: static;
     top: 0;
     width: 100%;
-}
-
-
-.navbar-brand {
-    color:white;
-    margin-right: 120px;
-}
-
-.nav-item {
+  }
+  
+  .navbar-brand {
+    color: white;
+    float: center;
+    font-size: 25px;
+  }
+  
+  .navbar-brand a {
+    color: inherit;
+    text-decoration: none;
+    transition-duration: 250ms;
+  }
+  
+  .navbar-brand a:hover {
+    color: rgb(7, 0, 102);
+    text-decoration: none;
+  }
+  
+  #navbarNav {
+    float: right;
+  }
+  
+  .nav-item {
     margin-top: 15px;
-}
-
-.nav-link {
+  }
+  
+  .nav-link {
     margin-top: 50px;
-    margin-right: 100px;
+    margin-right: 20px;
+    color: white;
+    font-size: 20px;
+    transition-duration: 250ms;
+  }
+  
+  .nav-link:hover {
+    text-decoration: none;
+    color: rgb(7, 0, 102);
+  }
+  
+
+#avatar {
+    width: 40px;
+    height: 40px;
+    margin-top: -12px;
+    margin-left: -15px;
 }

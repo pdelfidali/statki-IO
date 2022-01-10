@@ -32,14 +32,14 @@
             <div class="navbar-brand">Battleship Game</div>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" style="list-style: none">
                     {% if current_user.is_authenticated %}
-                        <li class="nav-item active">
-                            <img src="\static\avatars\{{ current_user.image_file }}" width="15" height="15">
-                            <a class="nav-link nav_hover" href="/profile/{{ current_user.username }}" style="color:white;">{{ current_user.username }}</a>
+                        <li class="nav-item" style="margin-right: 15px">
+                            <a class="nav-link nav_hover" href="/logout" style="color:white;">Wyloguj się</a>
                         </li>
-                        <li class="nav-item active">
-                           <a class="nav-link nav_hover" href="/logout" style="color:white;">Wyloguj się</a>
+                        <li class="nav-item">
+                            <a class="nav-link nav_hover" href="/profile/{{ current_user.username }}" style="color:white;">{{ current_user.username }}</a>
+                            <img src="\static\avatars\{{ current_user.image_file }}" id='avatar'>
                         </li>
                     {% endif %}
                 </ul>

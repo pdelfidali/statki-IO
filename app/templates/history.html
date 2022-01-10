@@ -4,7 +4,7 @@
 {%  block page_content %}
     <main class="container">
         <div class="field">
-            <table class="table">
+            <table class="table" id="game-history">
                 <thead>
                     <tr>
                         <th scope="col">id</th>
@@ -15,7 +15,6 @@
                 <tbody>
                     {% for game in games.items %}
                         <tr>
-
                             <th scope="row"><a href="/replay/{{ game.id }}">{{ game.id }}</a></th>
                             <td>{{ game.player1 }}</td>
                             <td>{{ game.player2 }}</td>

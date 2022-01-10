@@ -50,6 +50,22 @@ img {
     font-size: 20px;
 }
 
+#game-history table th {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+  
+
+#game-history table,
+#game-history th,
+#game-history td {
+    padding: 4px;
+    text-align: center;
+    border: 3px solid blue;
+    border-radius: 3%;
+}
+
+
 .text-right{
     margin-right: 40px;
 }

@@ -1,65 +1,65 @@
 .board {
-    margin-top: -20px;
-    width: 290px;
-    background-color: rgb(231, 233, 112);
-    padding-top: 5px;
-    margin-left: auto;
-	margin-right: auto;
-	text-align: center;
-    border-radius: 7px;
+  margin-top: -20px;
+  width: 290px;
+  background-color: rgb(231, 233, 112);
+  padding-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border-radius: 7px;
 }
 
 .square {
-    width: 15px;
-	height: 15px;
-	display: inline-block;
-	margin: 4px;
-    cursor: pointer;
-    background-image: url(../img/square.png);
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin: 4px;
+  cursor: pointer;
+  background-image: url(../img/square.png);
 }
 
 .square_success {
-    width: 15px;
-	height: 15px;
-	display: inline-block;
-	margin: 4px;
-    background-image: url(../img/square_success.png);
-    pointer-events: none !important; 
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin: 4px;
+  background-image: url(../img/square_success.png);
+  pointer-events: none !important;
 }
 
 .square_fail {
-    width: 15px;
-	height: 15px;
-	display: inline-block;
-	margin: 4px;
-    background-image: url(../img/square_fail.png);
-    pointer-events: none !important;
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin: 4px;
+  background-image: url(../img/square_fail.png);
+  pointer-events: none !important;
 }
 
 .square_ship {
-    width: 15px;
-	height: 15px;
-	display: inline-block;
-	margin: 4px;
-    background-image: url(../img/ship.jpg);
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin: 4px;
+  background-image: url(../img/ship.jpg);
 }
 
 #gamepanel {
-    width: 110%;
-    height: 55px;
-    background-color: aqua;
-    margin: 15px;
-	margin-right: auto;
-	text-align: center;
-    border-radius: 5px;
-    margin-left: -50px
+  width: 110%;
+  height: 55px;
+  background-color: aqua;
+  margin: 15px;
+  margin-right: auto;
+  text-align: center;
+  border-radius: 5px;
+  margin-left: -50px;
 }
 
 .panel_element {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 20px;
-    margin-left: auto;
-	margin-right: auto;
-	text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }

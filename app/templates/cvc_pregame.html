@@ -1,36 +1,34 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %} 
 
-
-{% block page_content %}
-    <main class="container">
-        <form method="GET" action="../cvc">
-            <div class="row">
-                <section class="col-sm-12 col-md-6 col-lg-4" class="border">
-                    <div class="field">
-                        <select name="bot1">
-                            <option value="easy">Łatwy</option>
-                            <option value="medium">Średni</option>
-                            <option value="hard">Trudny</option>
-                        </select>
-                    </div>
-                </section>
-                <section class="col-sm-12 col-md-6 col-lg-4 border" class="border">
-                    <div class="field">
-                        <p>Rozpocznij rozgrywkę!</p>
-                        <input type="submit" value="Rozpocznij rozgrywkę!">
-                    </div>
-                </section>
-                <section class="col-sm-12 col-md-6 col-lg-4 border" class="border">
-                    <div class="field">
-                        <select name="bot2">
-                            <option value="easy">Łatwy</option>
-                            <option value="medium">Średni</option>
-                            <option value="hard">Trudny</option>
-                        </select>
-                    </div>
-                </section>
-            </div>
-        </form>
-    </main>
+{% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
+<main class="container">
+  <form method="GET" action="../cvc">
+    <div class="row">
+      <section class="col-sm-12 col-md-6 col-lg-4" class="border">
+        <div class="field">
+          <select name="bot1">
+            <option value="easy">Łatwy</option>
+            <option value="medium">Średni</option>
+            <option value="hard">Trudny</option>
+          </select>
+        </div>
+      </section>
+      <section class="col-sm-12 col-md-6 col-lg-4 border" class="border">
+        <div class="field">
+          <p>Rozpocznij rozgrywkę!</p>
+          <input type="submit" value="Rozpocznij rozgrywkę!" />
+        </div>
+      </section>
+      <section class="col-sm-12 col-md-6 col-lg-4 border" class="border">
+        <div class="field">
+          <select name="bot2">
+            <option value="easy">Łatwy</option>
+            <option value="medium">Średni</option>
+            <option value="hard">Trudny</option>
+          </select>
+        </div>
+      </section>
+    </div>
+  </form>
+</main>
 {% endblock %}

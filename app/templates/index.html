@@ -1,66 +1,67 @@
-{% extends "base.html" %}
-
+{% extends "base.html" %} 
 
 {% block page_content %}
-        <main class="container">
-            <div class="row">
-                <section class="col-sm-12 col-md-6 col-lg-6" class="border">
-                    <div class="field">
-                        <p>Pierwszy raz tutaj? Zobacz jak grać!</p>
-                        <a href="./manual">
-                            <button class="go">Instrukcja</button>
-                        </a>
-                    </div>
-                </section>
-                <section class="col-sm-12 col-md-6 col-lg-6 border" class="border">
-                    <div class="field">
-                        <p>Gotowy żeby rozpocząć rozgrywkę? Let the Battle Begin!</p>
-                        <a href="./pregame">
-                            <button class="go">Rozgrywka</button>
-                        </a>
-                    </div>
-                </section>
-            </div>
-            <div class="row">
-                <section class="col-sm-12 col-md-6 col-lg-6 border" class="border">
-                    <div class="field">
-                        <p>Wszystkie epickie rozgrywki z przeszłości.</p>
-                        <a href="./replays/1">
-                            <button class="go">Historia Gier</button>
-                        </a>
-                    </div>
-                </section>
-                <section class="col-sm-12 col-md-6 col-lg-6 border" class="border">
-                    <div class="field">
-                        <p>Poznaj graczy z najlepszymi statystykami.</p>
-                        <a href="./statistics/1">
-                            <button class="go">Statystyki</button>
-                        </a>
-                    </div>
-                </section>
-            </div>
-        <script>
-            function newLoginWindow() {
-                window.open('/login', 'Zaloguj się', 'height=700, width=700, location=0')
-            }
+<main class="container">
+  <div class="row">
+    <section class="col-sm-12 col-md-6 col-lg-6" class="border">
+      <div class="field">
+        <p>Pierwszy raz tutaj? Zobacz jak grać!</p>
+        <a href="./manual">
+          <button class="go">Instrukcja</button>
+        </a>
+      </div>
+    </section>
+    <section class="col-sm-12 col-md-6 col-lg-6 border" class="border">
+      <div class="field">
+        <p>Gotowy żeby rozpocząć rozgrywkę? Let the Battle Begin!</p>
+        <a href="./pregame">
+          <button class="go">Rozgrywka</button>
+        </a>
+      </div>
+    </section>
+  </div>
+  <div class="row">
+    <section class="col-sm-12 col-md-6 col-lg-6 border" class="border">
+      <div class="field">
+        <p>Wszystkie epickie rozgrywki z przeszłości.</p>
+        <a href="./replays/1">
+          <button class="go">Historia Gier</button>
+        </a>
+      </div>
+    </section>
+    <section class="col-sm-12 col-md-6 col-lg-6 border" class="border">
+      <div class="field">
+        <p>Poznaj graczy z najlepszymi statystykami.</p>
+        <a href="./statistics/1">
+          <button class="go">Statystyki</button>
+        </a>
+      </div>
+    </section>
+  </div>
+  <script>
+    function newLoginWindow() {
+      window.open("/login", "Zaloguj się", "height=700, width=700, location=0");
+    }
 
-            function newRegisterWindow() {
-                window.open('/register', 'Zarejestruj się', 'height=700, width=700')
-            }
-        </script>
-        <div class="row">
-                <section class="col-sm-12 col-md-6 col-lg-6" class="border">
-                    <div class="field">
-                        <p>Stwórz konto już teraz!</p>
-                        <button class="go" onclick="newRegisterWindow()">Zarejestruj się</button>
-                    </div>
-                </section>
-                <section class="col-sm-12 col-md-6 col-lg-6 border" class="border">
-                    <div class="field">
-                        <p>Chcesz zagrać po raz kolejny?</p>
-                        <button class="go" onclick="newLoginWindow()">Zaloguj się</button>
-                    </div>
-                </section>
-            </div>
-        </main>
+    function newRegisterWindow() {
+      window.open("/register", "Zarejestruj się", "height=700, width=700");
+    }
+  </script>
+  <div class="row">
+    <section class="col-sm-12 col-md-6 col-lg-6" class="border">
+      <div class="field">
+        <p>Stwórz konto już teraz!</p>
+        <button class="go" onclick="newRegisterWindow()">
+          Zarejestruj się
+        </button>
+      </div>
+    </section>
+    <section class="col-sm-12 col-md-6 col-lg-6 border" class="border">
+      <div class="field">
+        <p>Chcesz zagrać po raz kolejny?</p>
+        <button class="go" onclick="newLoginWindow()">Zaloguj się</button>
+      </div>
+    </section>
+  </div>
+</main>
 {% endblock %}

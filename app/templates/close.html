@@ -1,13 +1,12 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %} 
+{% import "bootstrap/wtf.html" as wtf %} // Strona która zamknie otwarte okienko po logowaniu/rejestracji 
 
-// Strona która zamknie otwarte okienko po logowaniu/rejestracji
 {% block page_content %}
-    <script>
-        window.setTimeout(window.close, 2000)
-        window.onunload = refreshParent;
-        function refreshParent() {
-            window.opener.location.reload();
-        }
-    </script>
+<script>
+  window.setTimeout(window.close, 2000);
+  window.onunload = refreshParent;
+  function refreshParent() {
+    window.opener.location.reload();
+  }
+</script>
 {% endblock %}

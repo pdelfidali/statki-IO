@@ -143,10 +143,12 @@ label {
 }
 
 .sticky {
-    position: -webkit-sticky;
-	position: sticky;
-	top: 0;
+    background-color: rgba(0, 151, 252, 0.795);
+    position: static;
+    top: 0;
+    width: 100%;
 }
+
 
 .navbar-brand {
     color:white;

@@ -1,6 +1,7 @@
-from . import db, login_manager
-from werkzeug.security import  generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from . import db, login_manager
 
 
 class User(db.Model, UserMixin):
@@ -15,21 +16,22 @@ class User(db.Model, UserMixin):
     def password(self):
         raise AttributeError('User.password is protected')
 
-    def newpassword(self, newPassword):
-        self.password_hash = generate_password_hash(newPassword)
+    def newpassword(self, new_password):
+        self.password_hash = generate_password_hash(new_password)
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
     def deactivate_user(self):
         self.is_active = False
-    @login_manager.user_loader
 
-    def load_user(user_id):
+    @login_manager.user_loader
+    def load_user(self, user_id):
         return User.query.get(int(user_id))
 
     def __repr__(self):
         return f'{self.id}: {self.username}'
+
 
 class Stat(db.Model):
     __tablename__ = 'stat'
@@ -50,6 +52,7 @@ class Stat(db.Model):
     def __repr__(self):
         return f'{self.id}: {self.username}'
 
+
 class Game(db.Model):
     __tablename__ = 'games'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -62,4 +65,3 @@ class Game(db.Model):
 
     def __repr__(self):
         return f'{self.id}: {self.player1} vs {self.player2}'
-

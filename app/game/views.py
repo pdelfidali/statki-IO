@@ -1,28 +1,29 @@
-from flask import request, jsonify, redirect, render_template, json, flash, session
-from . import game
-from ..statistics.views import upload_resuls_after_game
-from .. import db
-from ..models import Game, User
+from flask import request, redirect, render_template, json, flash, session
 from flask_login import current_user, login_required
-from wtforms import SubmitField, StringField, PasswordField
-from wtforms.validators import DataRequired
 from flask_wtf import FlaskForm
 from sqlalchemy import desc
+from wtforms import SubmitField, StringField, PasswordField
+from wtforms.validators import DataRequired
+
+from . import game
+from .. import db
+from ..models import Game, User
+from ..statistics.views import upload_results_after_game
 
 
 @game.route('/game_summary', methods=['GET', 'POST'])
 def summary():
-    '''
+    """
     Endpoint który przyjmuje dane po rozgrywce i przekazuje je do bazy danych
-    '''
+    """
     if request.method == "POST" and request.get_json():
         data = request.get_json()
-        if (data['points'] > data['second_points']):
-            upload_resuls_after_game(data['player'], "true", data['shots'], data['points'])
-            upload_resuls_after_game(data['second_player'], "false", data['second_shots'], data['second_points'])
+        if data['points'] > data['second_points']:
+            upload_results_after_game(data['player'], "true", data['shots'], data['points'])
+            upload_results_after_game(data['second_player'], "false", data['second_shots'], data['second_points'])
         else:
-            upload_resuls_after_game(data['player'], "false", data['shots'], data['points'])
-            upload_resuls_after_game(data['second_player'], "true", data['second_shots'], data['second_points'])
+            upload_results_after_game(data['player'], "false", data['shots'], data['points'])
+            upload_results_after_game(data['second_player'], "true", data['second_shots'], data['second_points'])
         add_game(data)
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     return redirect('/game')
@@ -34,16 +35,16 @@ def play():
     return render_template('game.html')
 
 
-def add_game(gameData):
-    game = Game(
-        player1=gameData['player'],
-        player2=gameData['second_player'],
-        player1_ships=str(gameData['ships']),
-        player2_ships=str(gameData['second_ships']),
-        player1_shots=str(gameData['shot_list']),
-        player2_shots=str(gameData['second_shot_list']),
+def add_game(game_data):
+    game_dict = Game(
+        player1=game_data['player'],
+        player2=game_data['second_player'],
+        player1_ships=str(game_data['ships']),
+        player2_ships=str(game_data['second_ships']),
+        player1_shots=str(game_data['shot_list']),
+        player2_shots=str(game_data['second_shot_list']),
     )
-    db.session.add(game)
+    db.session.add(game_dict)
     db.session.commit()
 
 
@@ -83,10 +84,10 @@ def pvp():
     return render_template('pvp.html', form=form, form2=form2, player2=player2)
 
 
-@game.route('/replay/<int:id>/', methods=['GET', 'POST'])
-def replay(id):
-    replay = Game.query.filter_by(id=id).first()
-    return render_template('replay.html', game=replay)
+@game.route('/replay/<rep_id>/', methods=['GET', 'POST'])
+def replay(rep_id):
+    rep = Game.query.filter_by(id=rep_id).first()
+    return render_template('replay.html', game=rep)
 
 
 @game.route('/replays/<int:page_num>/', methods=['GET'])

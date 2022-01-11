@@ -1,19 +1,20 @@
 import sqlalchemy.exc
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField
-from wtforms.validators import DataRequired, Email
-from flask import Blueprint, render_template, redirect, url_for, flash
-from app.models import User, Stat
-from werkzeug.security import generate_password_hash, check_password_hash
-from app import db
-from . import auth
+from flask import render_template, redirect, flash
 from flask_login import login_user, logout_user, login_required
+from flask_wtf import FlaskForm
+from werkzeug.security import generate_password_hash
+from wtforms import StringField, SubmitField, PasswordField, BooleanField
+from wtforms.validators import DataRequired
+
+from app import db
+from app.models import User, Stat
+from . import auth
 
 
 class RegisterForm(FlaskForm):
-    '''
+    """
     Formularz do rejestracji
-    '''
+    """
     username = StringField('Wprowadź swój username:', validators=[DataRequired(message='Pole nie może być puste')])
     password = PasswordField('Wprowadź hasło:', validators=[DataRequired(message='Pole nie może być puste')])
     password2 = PasswordField('Potwierdź hasło:', validators=[DataRequired(message='Pole nie może być puste')])
@@ -22,9 +23,9 @@ class RegisterForm(FlaskForm):
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
-    '''
+    """
     Endpoint renderujący stronę z formularzem rejestracji w nowym oknie
-    '''
+    """
     form = RegisterForm()
     if form.validate_on_submit():
         if form.password.data == form.password2.data:
@@ -42,10 +43,11 @@ def register():
             flash("Hasła nie są takie same")
     return render_template('auth.html', form=form)
 
+
 class LoginForm(FlaskForm):
-    '''
+    """
     Formularz do logowania
-    '''
+    """
     username = StringField('Wprowadź swój nick:', validators=[DataRequired(message='Pole nie może być puste')])
     password = PasswordField('Wprowadź hasło:', validators=[DataRequired(message='Pole nie może być puste')])
     remember_me = BooleanField('Nie wylogowywuj mnie')
@@ -54,9 +56,9 @@ class LoginForm(FlaskForm):
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    '''
+    """
     Endpoint renderujący stronę z formularzem logowania w nowym oknie
-    '''
+    """
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -71,9 +73,9 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
-    '''
+    """
     Endpoint który wylogowywuje użytkownika
-    '''
+    """
     logout_user()
     flash('Wylogowałeś się!')
     return redirect('/')

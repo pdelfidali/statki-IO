@@ -1,13 +1,15 @@
 import sqlalchemy
-from sqlalchemy import cast
-from . import statistics
-from app.models import *
 from flask import render_template, request, flash
+from sqlalchemy import cast
 from sqlalchemy import desc
+
+from app.models import *
+from . import statistics
 
 ROWS_PER_PAGE = 20
 
-def upload_resuls_after_game(username, games_won, shot_total, shot_hit):
+
+def upload_results_after_game(username, games_won, shot_total, shot_hit):
     user = Stat.query.filter_by(username=username).first()
     if user:
         try:
@@ -26,7 +28,6 @@ def print_top5(ann_id):
                                          (cast(Stat.shot_hit_count, sqlalchemy.Float) / Stat.shot_total_count).label(
                                              'shots')). \
         order_by(desc('games')).paginate(page=page, per_page=ROWS_PER_PAGE)
-
 
     return render_template('statistics.html', title='Bootstrap Table',
                            users=user_best)

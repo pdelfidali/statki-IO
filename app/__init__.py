@@ -1,10 +1,11 @@
 import os.path
+from pathlib import Path
+
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
-from flask_sqlalchemy import SQLAlchemy
-from pathlib import Path
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -14,11 +15,11 @@ migrate = Migrate()
 
 
 def create_app():
-    '''
+    """
     Funkcja zwraca zainicjalizowaną aplikację
     :return:
     app
-    '''
+    """
     app = Flask(__name__)
     bootstrap.init_app(app)
     login_manager.init_app(app)
@@ -67,5 +68,6 @@ def create_app():
         return render_template('500.html')
 
     return app
+
 
 app = create_app()

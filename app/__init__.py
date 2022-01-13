@@ -1,7 +1,7 @@
 import os.path
 from pathlib import Path
 
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -33,6 +33,7 @@ def create_app():
     @app.route('/')
     @app.route('/index')
     def index():
+        session.pop('Second Player', None)
         return render_template('index.html')
 
     from app.auth import auth as auth_blueprint

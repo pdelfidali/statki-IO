@@ -51,6 +51,7 @@ def add_game(game_data):
 @game.route('/pregame', methods=['POST', 'GET'])
 @login_required
 def pregame():
+    session.pop('Second Player', None)
     return render_template('pregame.html')
 
 

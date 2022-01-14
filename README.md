@@ -11,7 +11,7 @@
   ```
 3. Instalujemy wymagane pakiety:
   ```
-  pip install -r reqirements.txt
+  pip install -r requirements.txt
   ```
 4. Ustawiamy zmienną środowiskową (korzystam z Windowsa w przypadku Linuxa trzeba użyć innej komendy):
   ```

@@ -37,6 +37,8 @@ ship_relocation.addEventListener("click", () => {
   set_ships(current_player);
 });
 
+show_ships('1');
+
 function start_game() {
   game_started = true;
   // przypisz do wszystkich pól gracza nr 1 funkcję handle_clicked_field(nr)
@@ -202,12 +204,7 @@ function set_ships(board_nr) {
     [b2_ships, possible_moves] = create_ship(1, b2_ships, possible_moves);
     [b2_ships, possible_moves] = create_ship(1, b2_ships, possible_moves);
   }
-
-  if (current_player == 1) {
-    show_ships(1);
-  } else if (current_player == 2) {
-    show_ships(2);
-  }
+  show_ships('1');
 }
 
 function create_ship(size, ships, possible_moves, horizontal = false) {
@@ -453,18 +450,10 @@ function switch_player() {
   current_player = current_player == 1 ? 2 : 1;
   if (current_player == 1) {
     $("#player").html(player_nick);
+    enable_board("2")
   } else {
     $("#player").html(computer_nick);
   }
-
-  enable_board(String(board_to_enable));
-  if (board_to_hide_ships != 1) {
-    hide_ships(board_to_hide_ships);
-  }
-
-  setTimeout(() => {
-    show_ships(board_to_show_ships);
-  }, 200);
 }
 
 // blokuje możliwość oddania strzału na danej planszy

@@ -11,7 +11,7 @@ from ..models import Game, User
 from ..statistics.views import upload_results_after_game
 
 
-@game.route('/game_summary', methods=['GET', 'POST'])
+@game.route('/game_summary', methods=['POST'])
 def summary():
     """
     Endpoint który przyjmuje dane po rozgrywce i przekazuje je do bazy danych
@@ -32,7 +32,11 @@ def summary():
 @game.route('/game', methods=['POST', 'GET'])
 @login_required
 def play():
-    return render_template('game.html')
+    if session.get('Second Player'):
+        return render_template('game.html')
+    else:
+        flash('Drugi użytkownik musi być zalogowany żeby przejść do rozgrywki!')
+        return redirect('/')
 
 
 def add_game(game_data):
@@ -43,6 +47,7 @@ def add_game(game_data):
         player2_ships=str(game_data['second_ships']),
         player1_shots=str(game_data['shot_list']),
         player2_shots=str(game_data['second_shot_list']),
+        winner=int(game_data['winner'])
     )
     db.session.add(game_dict)
     db.session.commit()

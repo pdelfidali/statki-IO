@@ -5,6 +5,7 @@
 {% block page_content %}
 <main class="container">
   <div class="field">
+    <p style="color:#ffd700;">Zwycięzca meczu</p>
     <table class="table" id="game-history">
       <thead>
         <tr>
@@ -17,8 +18,13 @@
         {% for game in games.items %}
         <tr>
           <th scope="row"><a href="/replay/{{ game.id }}">{{ game.id }}</a></th>
-          <td>{{ game.player1 }}</td>
-          <td>{{ game.player2 }}</td>
+            {% if game.winner == 1 %}
+              `<td style="color: #ffd700">{{ game.player1 }}</td>
+              `<td>{{ game.player2 }}</td>
+            {% else  %}
+              `<td>{{ game.player1 }}</td>
+              `<td style="color: #ffd700">{{ game.player2 }}</td>
+            {% endif %}
         </tr>
         {% endfor %}
       </tbody>

@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, login_required
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash
 from wtforms import StringField, SubmitField, PasswordField, BooleanField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length, Regexp
 
 from app import db
 from app.models import User, Stat
@@ -15,7 +15,10 @@ class RegisterForm(FlaskForm):
     """
     Formularz do rejestracji
     """
-    username = StringField('Wprowadź swój username:', validators=[DataRequired(message='Pole nie może być puste')])
+    username = StringField('Wprowadź swój username:',
+                           validators=[DataRequired(message='Pole nie może być puste'),
+                                       Length(min=5, max=20, message='Nazwa musi mieć od 5 do 20 znaków'),
+                                       Regexp(r'^[\w.@+-]+$', message='Nazwa nie może zawierać spacji')])
     password = PasswordField('Wprowadź hasło:', validators=[DataRequired(message='Pole nie może być puste')])
     password2 = PasswordField('Potwierdź hasło:', validators=[DataRequired(message='Pole nie może być puste')])
     submit = SubmitField('Zatwierdź')
@@ -41,14 +44,17 @@ def register():
                 flash(f'Nick jest juz uzywany przez kogos innego')
         else:
             flash("Hasła nie są takie same")
-    return render_template('auth.html', form=form)
+    return render_template('register.html', form=form)
 
 
 class LoginForm(FlaskForm):
     """
     Formularz do logowania
     """
-    username = StringField('Wprowadź swój nick:', validators=[DataRequired(message='Pole nie może być puste')])
+    username = StringField('Wprowadź swój nick:',
+                           validators=[DataRequired(message='Pole nie może być puste'),
+                                       Length(min=5, max=20, message='Nazwa musi mieć od 5 do 20 znaków'),
+                                       Regexp(r'^[\w.@+-]+$', message='Nazwa nie może zawierać spacji')])
     password = PasswordField('Wprowadź hasło:', validators=[DataRequired(message='Pole nie może być puste')])
     remember_me = BooleanField('Nie wylogowywuj mnie')
     submit = SubmitField('Zaloguj się')

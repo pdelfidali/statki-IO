@@ -1,4 +1,4 @@
-var WIN_POINTS = 5;
+var WIN_POINTS = 20;
 var game_started = false;
 var player_moved = false;
 
@@ -37,14 +37,8 @@ ship_relocation.addEventListener("click", () => {
   set_ships(current_player);
 });
 
-var ships = [];
-var second_ships = [];
-
 function start_game() {
-  ships = [...b1_ships];
-  second_ships = [...b2_ships];
   game_started = true;
-
   // przypisz do wszystkich pól gracza nr 1 funkcję handle_clicked_field(nr)
   for (let i = 0; i < 100; i++) {
     b1_square[i] = document.getElementById("b1_square" + i);
@@ -376,8 +370,8 @@ function handle_clicked_field(nr) {
   } else if (current_player == 2) {
     computer_shots++;
     b2_shots.push(nr);
-    fields_valid_to_hit_on_player_board = remove_single_item(
-      fields_valid_to_hit_on_player_board,
+    fields_valid_to_hit_on_player_board =
+        remove_single_item(fields_valid_to_hit_on_player_board,
       nr
     );
     if (b1_ships.includes(nr)) {
@@ -411,13 +405,10 @@ function trigger_computer_move() {
         field_nr = get_random_item(fields_valid_to_hit_on_player_board);
         handle_clicked_field(field_nr);
       } else {
-        field_nr = get_random_item(
-          fields_valid_to_hit_on_player_board.filter((value) =>
-            b1_ships.includes(value)
-          )
-        );
+        let intersection = fields_valid_to_hit_on_player_board.filter(x => b1_ships.includes(x));
+        field_nr = get_random_item(intersection);
         handle_clicked_field(field_nr);
-      }
+        }
     }, 1000);
   } else {
     setTimeout(() => {
@@ -425,13 +416,10 @@ function trigger_computer_move() {
         field_nr = get_random_item(fields_valid_to_hit_on_player_board);
         handle_clicked_field(field_nr);
       } else {
-        field_nr = get_random_item(
-          fields_valid_to_hit_on_player_board.filter((value) =>
-            b1_ships.includes(value)
-          )
-        );
+        let intersection = fields_valid_to_hit_on_player_board.filter(x => b1_ships.includes(x));
+        field_nr = get_random_item(intersection);
         handle_clicked_field(field_nr);
-      }
+        }
     }, 1000);
   }
 }
@@ -444,12 +432,6 @@ function flip_success(nr) {
   $("#" + id_prefix + nr).removeClass("square_ship");
   $("#" + id_prefix + nr).addClass("square_success");
   $("#" + id_prefix + nr).attr("disabled", "disabled");
-
-  if (current_player == 1) {
-    b2_ships == remove_single_item(b2_ships, nr);
-  } else if (current_player == 2) {
-    b1_ships == remove_single_item(b1_ships, nr);
-  }
 }
 
 // wywoływana w przypadku spudłowania
@@ -506,8 +488,10 @@ function enable_board(nr) {
 function end_game() {
   if (player_points == WIN_POINTS) {
     var text = "Zwycięża " + player_nick;
+    var winner = '1';
   } else if (computer_points == WIN_POINTS) {
     var text = "Zwycięża " + computer_nick;
+    var winner = '2';
   }
   alert(text);
 
@@ -525,10 +509,11 @@ function end_game() {
     second_player: computer_nick,
     second_shots: computer_shots,
     second_points: computer_points,
-    ships: ships,
-    second_ships: second_ships,
+    ships: b1_ships,
+    second_ships: b2_ships,
     shot_list: b1_shots,
     second_shot_list: b2_shots,
+    winner: winner,
   };
 
   $.ajax({

@@ -90,7 +90,7 @@
 </main>
 
 <script>
-  var WIN_POINTS = 1;
+  var WIN_POINTS = 20;
   var game_started = false;
   var player_moved = false;
 
@@ -396,9 +396,9 @@
       $('#' + id_prefix + nr).attr("disabled", "disabled");
 
       if (player == 1) {
-          b2_ships == remove_single_item(b2_ships, nr);
+          b2_ships = remove_single_item(b2_ships, nr);
       } else if (player == 2) {
-          b1_ships == remove_single_item(b1_ships, nr);
+          b1_ships = remove_single_item(b1_ships, nr);
       }
 
       if (player_one_points == WIN_POINTS || player_two_points == WIN_POINTS) {
@@ -462,8 +462,10 @@
 
       if (player_one_points == WIN_POINTS) {
           var text = "Zwycięża " + player_one_nick;
+          winner = '1';
       } else if (player_two_points == WIN_POINTS) {
           var text = "Zwycięża " + player_two_nick;
+          winner = '2';
       }
       alert(text);
 
@@ -485,6 +487,7 @@
           'second_ships' : second_ships,
           'shot_list' : b1_shots,
           'second_shot_list' : b2_shots,
+          'winner' : winner,
       }
 
       console.log(JSON.stringify(game_summary))

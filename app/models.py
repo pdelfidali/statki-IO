@@ -62,6 +62,7 @@ class Game(db.Model):
     player2_ships = db.Column(db.String(300))
     player1_shots = db.Column(db.String(300))
     player2_shots = db.Column(db.String(300))
+    winner = db.Column(db.Integer)
 
     def __repr__(self):
         return f'{self.id}: {self.player1} vs {self.player2}'

@@ -1,4 +1,4 @@
-var WIN_POINTS = 5;
+const WIN_POINTS = 20;
 var game_started = false;
 var player_moved = false;
 
@@ -38,32 +38,21 @@ ship_relocation.addEventListener("click", () => {
   set_ships(current_player);
 });
 
-var ships = [];
-var second_ships = [];
-
 show_ships();
 disable_board();
 
 function start_game() {
-  ships = [...b1_ships];
-  second_ships = [...b2_ships];
   game_started = true;
 
   // przypisz do wszystkich pól gracza nr 1 funkcję handle_clicked_field(nr)
   for (let i = 0; i < 100; i++) {
     b1_square[i] = document.getElementById("b1_square" + i);
-    b1_square[i].addEventListener("click", () => {
-      handle_clicked_field(i);
-    });
     fields_valid_to_hit_on_b1.push(i);
   }
 
   // przypisz do wszystkich pól gracza nr 2 funkcję handle_clicked_field(nr)
   for (let i = 0; i < 100; i++) {
     b2_square[i] = document.getElementById("b2_square" + i);
-    b2_square[i].addEventListener("click", () => {
-      handle_clicked_field(i);
-    });
     fields_valid_to_hit_on_b2.push(i);
   }
 
@@ -323,17 +312,14 @@ function show_ships() {
 // obsługuje naciśnięcie danego pola
 function handle_clicked_field(nr) {
   if (current_player == 1) {
+    fields_valid_to_hit_on_b2 = remove_single_item(fields_valid_to_hit_on_b2, nr);
     computer1_shots++;
     b1_shots.push(nr);
-    fields_valid_to_hit_on_b1 = remove_single_item(
-      fields_valid_to_hit_on_b1,
-      nr
-    );
     if (b2_ships.includes(nr)) {
       // przypadek, w którym gracz nr 1 trafił
       computer1_points++;
       flip_success(nr);
-      if (computer1_points == WIN_POINTS || computer2_points == WIN_POINTS) {
+      if (computer1_points == WIN_POINTS) {
         disable_board();
         end_game();
       } else {
@@ -346,17 +332,14 @@ function handle_clicked_field(nr) {
       trigger_computer_move(current_player);
     }
   } else if (current_player == 2) {
+    fields_valid_to_hit_on_b1 = remove_single_item(fields_valid_to_hit_on_b1, nr);
     computer2_shots++;
     b2_shots.push(nr);
-    fields_valid_to_hit_on_b2 = remove_single_item(
-      fields_valid_to_hit_on_b2,
-      nr
-    );
     if (b1_ships.includes(nr)) {
       // przypadek, w którym komputer trafił
       computer2_points++;
       flip_success(nr);
-      if (computer1_points == WIN_POINTS || computer2_points == WIN_POINTS) {
+      if (computer2_points == WIN_POINTS) {
         disable_board();
         end_game();
       } else {
@@ -384,25 +367,19 @@ function trigger_computer_move(computer) {
           field_nr = get_random_item(fields_valid_to_hit_on_b2);
           handle_clicked_field(field_nr);
         } else {
-          field_nr = get_random_item(
-            fields_valid_to_hit_on_b2.filter((value) =>
-              b2_ships.includes(value)
-            )
-          );
+          let intersection = fields_valid_to_hit_on_b2.filter(x => b2_ships.includes(x));
+          field_nr = get_random_item(intersection);
           handle_clicked_field(field_nr);
         }
       }, 1000);
     } else {
       setTimeout(() => {
-        if (get_random_int(0, 100) < 15) {
+        if (get_random_int(0, 100) < 50) {
           field_nr = get_random_item(fields_valid_to_hit_on_b2);
           handle_clicked_field(field_nr);
         } else {
-          field_nr = get_random_item(
-            fields_valid_to_hit_on_b2.filter((value) =>
-              b2_ships.includes(value)
-            )
-          );
+          let intersection = fields_valid_to_hit_on_b2.filter(x => b2_ships.includes(x));
+          field_nr = get_random_item(intersection);
           handle_clicked_field(field_nr);
         }
       }, 1000);
@@ -419,25 +396,19 @@ function trigger_computer_move(computer) {
           field_nr = get_random_item(fields_valid_to_hit_on_b1);
           handle_clicked_field(field_nr);
         } else {
-          field_nr = get_random_item(
-            fields_valid_to_hit_on_b1.filter((value) =>
-              b1_ships.includes(value)
-            )
-          );
+          let intersection = fields_valid_to_hit_on_b1.filter(x => b1_ships.includes(x));
+          field_nr = get_random_item(intersection);
           handle_clicked_field(field_nr);
         }
       }, 1000);
     } else {
       setTimeout(() => {
-        if (get_random_int(0, 100) < 15) {
+        if (get_random_int(0, 100) < 50) {
           field_nr = get_random_item(fields_valid_to_hit_on_b1);
           handle_clicked_field(field_nr);
         } else {
-          field_nr = get_random_item(
-            fields_valid_to_hit_on_b1.filter((value) =>
-              b1_ships.includes(value)
-            )
-          );
+          let intersection = fields_valid_to_hit_on_b1.filter(x => b1_ships.includes(x));
+          field_nr = get_random_item(intersection);
           handle_clicked_field(field_nr);
         }
       }, 1000);
@@ -453,12 +424,6 @@ function flip_success(nr) {
   $("#" + id_prefix + nr).removeClass("square_ship");
   $("#" + id_prefix + nr).addClass("square_success");
   $("#" + id_prefix + nr).attr("disabled", "disabled");
-
-  if (current_player == 1) {
-    b2_ships == remove_single_item(b2_ships, nr);
-  } else if (current_player == 2) {
-    b1_ships == remove_single_item(b1_ships, nr);
-  }
 }
 
 // wywoływana w przypadku spudłowania
@@ -503,15 +468,16 @@ function enable_board(nr) {
 function end_game() {
   if (computer1_points == WIN_POINTS) {
     var text = "Zwycięża " + computer1_nick;
+    var winner = '1';
   } else if (computer2_points == WIN_POINTS) {
     var text = "Zwycięża " + computer2_nick;
+    var winner = '2';
   }
-  alert(text);
-
   // zablokowanie obu planszy
   () => {
     disable_board();
   };
+  alert(text);
 
   // przesłanie danych z rozgrywki do serwera
   var game_summary = {
@@ -521,10 +487,11 @@ function end_game() {
     second_player: computer2_nick,
     second_shots: computer2_shots,
     second_points: computer2_points,
-    ships: ships,
-    second_ships: second_ships,
+    ships: b1_ships,
+    second_ships: b2_ships,
     shot_list: b1_shots,
     second_shot_list: b2_shots,
+    winner: winner,
   };
 
   $.ajax({

@@ -360,7 +360,7 @@ function trigger_computer_move(computer) {
       setTimeout(() => {
         field_nr = get_random_item(fields_valid_to_hit_on_b2);
         handle_clicked_field(field_nr);
-      }, 1000);
+      }, 75);
     } else if (bot1 == "medium") {
       setTimeout(() => {
         if (get_random_int(0, 100) < 85) {
@@ -371,7 +371,7 @@ function trigger_computer_move(computer) {
           field_nr = get_random_item(intersection);
           handle_clicked_field(field_nr);
         }
-      }, 1000);
+      }, 75);
     } else {
       setTimeout(() => {
         if (get_random_int(0, 100) < 50) {
@@ -382,14 +382,14 @@ function trigger_computer_move(computer) {
           field_nr = get_random_item(intersection);
           handle_clicked_field(field_nr);
         }
-      }, 1000);
+      }, 75);
     }
   } else {
     if (bot2 == "easy") {
       setTimeout(() => {
         field_nr = get_random_item(fields_valid_to_hit_on_b1);
         handle_clicked_field(field_nr);
-      }, 1000);
+      }, 75);
     } else if (bot2 == "medium") {
       setTimeout(() => {
         if (get_random_int(0, 100) < 85) {
@@ -400,7 +400,7 @@ function trigger_computer_move(computer) {
           field_nr = get_random_item(intersection);
           handle_clicked_field(field_nr);
         }
-      }, 1000);
+      }, 75);
     } else {
       setTimeout(() => {
         if (get_random_int(0, 100) < 50) {
@@ -411,7 +411,7 @@ function trigger_computer_move(computer) {
           field_nr = get_random_item(intersection);
           handle_clicked_field(field_nr);
         }
-      }, 1000);
+      }, 75);
     }
   }
 }
@@ -473,11 +473,7 @@ function end_game() {
     var text = "Zwycięża " + computer2_nick;
     var winner = '2';
   }
-  // zablokowanie obu planszy
-  () => {
-    disable_board();
-  };
-  alert(text);
+  setTimeout(() => {alert(text)}, 75);
 
   // przesłanie danych z rozgrywki do serwera
   var game_summary = {

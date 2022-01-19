@@ -482,13 +482,13 @@ function end_game() {
     var text = "Zwycięża " + computer_nick;
     var winner = '2';
   }
-  alert(text);
 
   // zablokowanie obu planszy
   () => {
     disable_board("1");
     disable_board("2");
   };
+  setTimeout(() => {alert(text)}, 75);
 
   // przesłanie danych z rozgrywki do serwera
   var game_summary = {

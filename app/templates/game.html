@@ -313,16 +313,17 @@
   }
 
   function remove_items_for_hit_field(possible_moves, item) {
-      possible_moves = remove_single_item(possible_moves, item + 1);
-      possible_moves = remove_single_item(possible_moves, item - 1);
-      possible_moves = remove_single_item(possible_moves, item + 9);
-      possible_moves = remove_single_item(possible_moves, item - 9);
-      possible_moves = remove_single_item(possible_moves, item + 10);
-      possible_moves = remove_single_item(possible_moves, item - 10);
-      possible_moves = remove_single_item(possible_moves, item + 11);
-      possible_moves = remove_single_item(possible_moves, item - 11);
+    possible_moves = remove_single_item(possible_moves, item);
+    possible_moves = remove_single_item(possible_moves, item + 1);
+    possible_moves = remove_single_item(possible_moves, item - 1);
+    possible_moves = remove_single_item(possible_moves, item + 9);
+    possible_moves = remove_single_item(possible_moves, item - 9);
+    possible_moves = remove_single_item(possible_moves, item + 10);
+    possible_moves = remove_single_item(possible_moves, item - 10);
+    possible_moves = remove_single_item(possible_moves, item + 11);
+    possible_moves = remove_single_item(possible_moves, item - 11);
 
-      return possible_moves;
+    return possible_moves;
   }
 
   // pokaż wszystkie niezatopione statki na planszy
@@ -490,7 +491,6 @@
           'winner' : winner,
       }
 
-      console.log(JSON.stringify(game_summary))
       $.ajax({
           type: "POST",
           contentType: "application/json",

@@ -293,6 +293,7 @@ function create_ship(size, ships, possible_moves, horizontal = false) {
 }
 
 function remove_items_for_hit_field(possible_moves, item) {
+  possible_moves = remove_single_item(possible_moves, item);
   possible_moves = remove_single_item(possible_moves, item + 1);
   possible_moves = remove_single_item(possible_moves, item - 1);
   possible_moves = remove_single_item(possible_moves, item + 9);

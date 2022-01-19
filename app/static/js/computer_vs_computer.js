@@ -362,7 +362,7 @@ function trigger_computer_move(computer) {
       setTimeout(() => {
         field_nr = get_random_item(fields_valid_to_hit_on_b2);
         handle_clicked_field(field_nr);
-      }, 75);
+      }, 1000);
     } else if (bot1 == "medium") {
       setTimeout(() => {
         if (get_random_int(0, 100) < 85) {
@@ -373,7 +373,7 @@ function trigger_computer_move(computer) {
           field_nr = get_random_item(intersection);
           handle_clicked_field(field_nr);
         }
-      }, 75);
+      }, 1000);
     } else {
       setTimeout(() => {
         if (get_random_int(0, 100) < 50) {
@@ -384,14 +384,14 @@ function trigger_computer_move(computer) {
           field_nr = get_random_item(intersection);
           handle_clicked_field(field_nr);
         }
-      }, 75);
+      }, 1000);
     }
   } else {
     if (bot2 == "easy") {
       setTimeout(() => {
         field_nr = get_random_item(fields_valid_to_hit_on_b1);
         handle_clicked_field(field_nr);
-      }, 75);
+      }, 1000);
     } else if (bot2 == "medium") {
       setTimeout(() => {
         if (get_random_int(0, 100) < 85) {
@@ -402,7 +402,7 @@ function trigger_computer_move(computer) {
           field_nr = get_random_item(intersection);
           handle_clicked_field(field_nr);
         }
-      }, 75);
+      }, 1000);
     } else {
       setTimeout(() => {
         if (get_random_int(0, 100) < 50) {
@@ -413,7 +413,7 @@ function trigger_computer_move(computer) {
           field_nr = get_random_item(intersection);
           handle_clicked_field(field_nr);
         }
-      }, 75);
+      }, 1000);
     }
   }
 }

@@ -19,11 +19,11 @@
         <tr>
           <th scope="row"><a href="/replay/{{ game.id }}">{{ game.id }}</a></th>
             {% if game.winner == 1 %}
-              `<td style="color: #ffd700">{{ game.player1 }}</td>
-              `<td>{{ game.player2 }}</td>
+              <td style="color: #ffd700">{{ game.player1 }}</td>
+              <td>{{ game.player2 }}</td>
             {% else  %}
-              `<td>{{ game.player1 }}</td>
-              `<td style="color: #ffd700">{{ game.player2 }}</td>
+              <td>{{ game.player1 }}</td>
+              <td style="color: #ffd700">{{ game.player2 }}</td>
             {% endif %}
         </tr>
         {% endfor %}

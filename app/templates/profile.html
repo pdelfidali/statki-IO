@@ -13,15 +13,15 @@
         <div class="container-fluid personal-container">
             <h1>Twoje osiągnięcia:</h1>
             <p>Zagrałeś w {{ user_statistics.games_count }} gier</p>
-            <p>Wygrałeś {{ 100*(user_statistics.games) | round(2) }}% z nich</p>
-            <p>Twój procent celnych strzałów to: {{ 100* (user_statistics.shots) | round(2) }}%</p><br>
+            <p>Wygrałeś {{ (100*user_statistics.games) | round(2) | int }}% z nich</p>
+            <p>Twój procent celnych strzałów to: {{ (100*user_statistics.shots) | round(2) | int}}%</p><br>
         </div>
         {% else %}
         <div class="container-fluid personal-container">
             <h1>Osiągnięcia gracza {{ user_statistics.username }}:</h1>
             <p>Ilość zagranych gier: {{ user_statistics.games_count }}</p>
-            <p>Procent wygranych gier: {{ 100*(user_statistics.games) | round(2) }}% </p>
-            <p>Procent celnych strzałów: {{ 100* (user_statistics.shots) | round(2) }}%</p><br>
+            <p>Procent wygranych gier: {{ (100*user_statistics.games) | round(2) }}% </p>
+            <p>Procent celnych strzałów: {{ (100*user_statistics.shots) | round(2) }}%</p><br>
         </div>
         {% endif %}
         {% else %}

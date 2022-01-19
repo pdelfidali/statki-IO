@@ -6,7 +6,7 @@ from sqlalchemy import desc
 from app.models import *
 from . import statistics
 
-ROWS_PER_PAGE = 20
+ROWS_PER_PAGE = 10
 
 
 def upload_results_after_game(username, games_won, shot_total, shot_hit):

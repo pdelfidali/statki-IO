@@ -20,11 +20,11 @@
         {% else %}
         <td>{{ 0 }}</td>
         {% endif %} {% if user.games %}
-        <td>{{ 100*user.games|round(2) }}</td>
+        <td>{{ (100*user.games)|round(2) }}</td>
         {% else %}
         <td>{{ 0 }}</td>
         {% endif %} {% if user.shots %}
-        <td>{{ 100*user.shots|round(2) }}</td>
+        <td>{{ (100*user.shots)|round(2) }}</td>
         {% else %}
         <td>{{ 0 }}</td>
         {% endif %}

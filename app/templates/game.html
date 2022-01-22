@@ -136,6 +136,10 @@
   var second_ships = [];
 
   function start_game() {
+        $('#player_swap').attr('readonly', 'true');
+        $('#player_swap').css('opacity', '0.75');
+        $('#player_swap').css('pointer-events', 'none');
+
       ships = [...b1_ships];
       second_ships = [...b2_ships];
       game_started = true;
@@ -371,7 +375,9 @@
           } else { // przypadek, w którym gracz nr 1 spudłował
               flip_failure(nr);
               disable_board('2');
-
+              $('#player_swap').attr('readonly', 'false');
+              $('#player_swap').css('opacity', '1');
+              $('#player_swap').css('pointer-events', 'auto');
           }
       } else if (player == 2) { // przypadek, w którym gracz nr 2 trafił
           player_two_shots++;
@@ -382,7 +388,9 @@
           } else { // przypadek, w którym gracz nr 2 spudłował
               flip_failure(nr);
               disable_board('1');
-
+              $('#player_swap').attr('readonly', 'false');
+              $('#player_swap').css('opacity', '1');
+              $('#player_swap').css('pointer-events', 'auto');
           }
       }
   }
@@ -439,6 +447,12 @@
           alert('Potwierdź zmianę gracza');
           show_ships(board_to_show_ships);
       }, 200 );
+
+      if (game_started) {
+        $('#player_swap').attr('readonly', 'true');
+        $('#player_swap').css('opacity', '0.75');
+        $('#player_swap').css('pointer-events', 'none');
+      }
   }
 
   // blokuje możliwość oddania strzału na danej planszy

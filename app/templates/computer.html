@@ -25,6 +25,7 @@
 
 {% block page_content %}
 <main>
+
   <div class="row">
     <div class="col-md-2"></div>
 
@@ -41,6 +42,24 @@
         {% for n in range(100) %}
         <div id="b2_square{{n}}" class="square"></div>
         {% endfor %}
+      </div>
+    </section>
+
+    <div class="col-md-2"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2"></div>
+
+    <section class="col-sm-12 col-md-4">
+      <div class="board_signature">
+        <p>player board</p>
+      </div>
+    </section>
+
+    <section class="col-sm-12 col-md-4">
+      <div class="board_signature">
+        <p>bot board</p>
       </div>
     </section>
 
